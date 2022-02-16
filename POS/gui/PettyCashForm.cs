@@ -10,16 +10,16 @@ using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class frmMain : Form
+    public partial class PettyCashForm : Form
     {
-        public frmMain()
+        public PettyCashForm()
         {
             InitializeComponent();
         }
 
-        private void frmMain_Load(object sender, EventArgs e)
+        private void button28_Click(object sender, EventArgs e)
         {
-
+            this.Visible = false;
         }
     }
 }

@@ -12,6 +12,21 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,7 +47,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>POS.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,16 +68,98 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="general\Day.cs" />
+    <Compile Include="general\JwtToken.cs" />
+    <Compile Include="general\User.cs" />
+    <Compile Include="general\Web.cs" />
+    <Compile Include="gui\CashPickUpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="gui\CashPickUpForm.Designer.cs">
+      <DependentUpon>CashPickUpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FloatForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FloatForm.Designer.cs">
+      <DependentUpon>FloatForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\LockForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\LockForm.Designer.cs">
+      <DependentUpon>LockForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\Paypoint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\Paypoint.Designer.cs">
+      <DependentUpon>Paypoint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\PettyCashForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\PettyCashForm.Designer.cs">
+      <DependentUpon>PettyCashForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="gui\SetupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\SetupForm.Designer.cs">
+      <DependentUpon>SetupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\SplashForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\SplashForm.Designer.cs">
+      <DependentUpon>SplashForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\XReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\XReportForm.Designer.cs">
+      <DependentUpon>XReportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\ZReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\ZReportForm.Designer.cs">
+      <DependentUpon>ZReportForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="gui\CashPickUpForm.resx">
+      <DependentUpon>CashPickUpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\FloatForm.resx">
+      <DependentUpon>FloatForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\LockForm.resx">
+      <DependentUpon>LockForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\Paypoint.resx">
+      <DependentUpon>Paypoint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\PettyCashForm.resx">
+      <DependentUpon>PettyCashForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -66,6 +170,19 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="gui\SetupForm.resx">
+      <DependentUpon>SetupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\SplashForm.resx">
+      <DependentUpon>SplashForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\XReportForm.resx">
+      <DependentUpon>XReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\ZReportForm.resx">
+      <DependentUpon>ZReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -79,6 +196,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

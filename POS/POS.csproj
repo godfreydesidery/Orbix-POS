@@ -68,8 +68,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="general\Bill.cs" />
+    <Compile Include="general\Cart.cs" />
+    <Compile Include="general\CartDetail.cs" />
+    <Compile Include="general\CashPickUp.cs" />
+    <Compile Include="general\Collection.cs" />
+    <Compile Include="general\Company.cs" />
+    <Compile Include="general\CRNote.cs" />
+    <Compile Include="general\Crypt.cs" />
+    <Compile Include="general\Database.cs" />
     <Compile Include="general\Day.cs" />
+    <Compile Include="general\Error.cs" />
+    <Compile Include="general\Fiscal.cs" />
+    <Compile Include="general\Hash.cs" />
+    <Compile Include="general\InstalledPOSDevices.cs" />
+    <Compile Include="general\Inventory.cs" />
     <Compile Include="general\JwtToken.cs" />
+    <Compile Include="general\Key.cs" />
+    <Compile Include="general\LApplication.cs" />
+    <Compile Include="general\LCurrency.cs" />
+    <Compile Include="general\Payment.cs" />
+    <Compile Include="general\PettyCash.cs" />
+    <Compile Include="general\PointOfSale.cs" />
+    <Compile Include="general\Product.cs" />
+    <Compile Include="general\RandomKeyGenerator.cs" />
+    <Compile Include="general\RawPrinterHelper.cs" />
+    <Compile Include="general\Receipt.cs" />
+    <Compile Include="general\ReceiptDetail.cs" />
+    <Compile Include="general\Role.cs" />
+    <Compile Include="general\SaleSequence.cs" />
+    <Compile Include="general\StockCard.cs" />
+    <Compile Include="general\Till.cs" />
+    <Compile Include="general\TillPosition.cs" />
     <Compile Include="general\User.cs" />
     <Compile Include="general\Web.cs" />
     <Compile Include="gui\CashPickUpForm.cs">
@@ -83,6 +113,30 @@
     </Compile>
     <Compile Include="gui\FloatForm.Designer.cs">
       <DependentUpon>FloatForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FormAllow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormAllow.Designer.cs">
+      <DependentUpon>FormAllow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FormDiscount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormDiscount.Designer.cs">
+      <DependentUpon>FormDiscount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FormOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormOrder.Designer.cs">
+      <DependentUpon>FormOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FormPrinters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormPrinters.Designer.cs">
+      <DependentUpon>FormPrinters.cs</DependentUpon>
     </Compile>
     <Compile Include="gui\LockForm.cs">
       <SubType>Form</SubType>

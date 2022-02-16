@@ -60,7 +60,7 @@
             this.lblAlias = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnPay = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dtgrdProductList = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,7 +73,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgrdProductList)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -483,15 +483,15 @@
             this.btnPay.UseVisualStyleBackColor = false;
             this.btnPay.Click += new System.EventHandler(this.button19_Click);
             // 
-            // dataGridView1
+            // dtgrdProductList
             // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dtgrdProductList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dtgrdProductList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtgrdProductList.BackgroundColor = System.Drawing.Color.White;
+            this.dtgrdProductList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgrdProductList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
             this.Column3,
@@ -500,11 +500,13 @@
             this.Column6,
             this.Column7,
             this.Column8});
-            this.dataGridView1.Location = new System.Drawing.Point(8, 78);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(1152, 557);
-            this.dataGridView1.TabIndex = 4;
+            this.dtgrdProductList.Location = new System.Drawing.Point(8, 78);
+            this.dtgrdProductList.Name = "dtgrdProductList";
+            this.dtgrdProductList.RowTemplate.Height = 28;
+            this.dtgrdProductList.Size = new System.Drawing.Size(1152, 557);
+            this.dtgrdProductList.TabIndex = 4;
+            this.dtgrdProductList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgrdProductList_CellContentClick);
+            this.dtgrdProductList.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgrdProductList_CellEndEdit);
             // 
             // Column1
             // 
@@ -595,14 +597,14 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnPay);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dtgrdProductList);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "POS";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgrdProductList)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -612,7 +614,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dtgrdProductList;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;

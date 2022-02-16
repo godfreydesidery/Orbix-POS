@@ -8,5 +8,6 @@ namespace POS.general
 {
     class Database
     {
+        public static string conString = "";
     }
 }

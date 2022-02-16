@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class PayPointForm : Form
+    public partial class FormPayPoint : Form
     {
-        public PayPointForm()
+        public FormPayPoint()
         {
             InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
+            throw new NotImplementedException();
         }
 
         private void button28_Click(object sender, EventArgs e)

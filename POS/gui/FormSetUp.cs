@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class SetupForm : Form
+    public partial class FormSetUp : Form
     {
-        public SetupForm()
+        public FormSetUp()
         {
             InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
+            throw new NotImplementedException();
         }
 
         private void SetupForm_Load(object sender, EventArgs e)

@@ -505,6 +505,7 @@
             this.dtgrdProductList.RowTemplate.Height = 28;
             this.dtgrdProductList.Size = new System.Drawing.Size(1152, 557);
             this.dtgrdProductList.TabIndex = 4;
+            this.dtgrdProductList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgrdProductList_CellClick);
             this.dtgrdProductList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgrdProductList_CellContentClick);
             this.dtgrdProductList.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgrdProductList_CellEndEdit);
             // 
@@ -603,6 +604,7 @@
             this.Text = "POS";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmMain_Load);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dtgrdProductList)).EndInit();
             this.panel1.ResumeLayout(false);

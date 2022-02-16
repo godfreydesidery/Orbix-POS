@@ -8,5 +8,11 @@ namespace POS.general
 {
     class PettyCash
     {
+        public string id { get; set; }
+        public double amount { get; set; }
+        public string details { get; set; }
+        public DateTime pickedAt { get; set; }
+        public Till till { get; set; } = new Till();
+        public User pickedBy { get; set; } = new User();
     }
 }

@@ -177,5 +177,39 @@ namespace POS.general
 
             }
         }
+        public static Object put(object data, string url)
+        {
+            try
+            {
+                string baseUrl = "http://192.168.43.40:8080";
+                UTF8Encoding encoding = new UTF8Encoding();
+                Byte[] byteData = encoding.GetBytes(JsonConvert.SerializeObject(data, Formatting.Indented));
+                HttpWebRequest postReq = (HttpWebRequest)WebRequest.Create(baseUrl + "/" + url);
+                postReq.Method = "POST";
+                postReq.KeepAlive = true;
+                postReq.ContentType = "application/json";
+                postReq.Referer = baseUrl;
+                postReq.Headers.Add("Authorization", "Bearer " + User.accessToken); //put auth token
+                postReq.ContentLength = byteData.Length;
+                Stream postReqStream = postReq.GetRequestStream();
+                postReqStream.Write(byteData, 0, byteData.Length);
+                postReqStream.Close();
+                HttpWebResponse postResponse;
+                postResponse = (HttpWebResponse)postReq.GetResponse();
+                StreamReader postRequestReader = new StreamReader(postResponse.GetResponseStream(), new UTF8Encoding());
+                object responseFromServer = postRequestReader.ReadToEnd();
+                return responseFromServer;
+            }
+            catch (System.Net.WebException e)
+            {
+                MessageBox.Show(e.ToString(), "Error");
+                return null;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "Error");
+                return null;
+            }
+        }
     }   
 }

@@ -8,5 +8,7 @@ namespace POS.general
 {
     class SaleSequence
     {
+        public static int seqNo = 1;
+        public static bool multiple = true;
     }
 }

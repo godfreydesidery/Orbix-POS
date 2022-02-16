@@ -1,6 +1,6 @@
 ﻿namespace POS
 {
-    partial class PayPointForm
+    partial class FormPayPoint
     {
         /// <summary>
         /// Required designer variable.
@@ -34,7 +34,9 @@
             this.button28 = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
@@ -54,18 +56,33 @@
             this.button19 = new System.Windows.Forms.Button();
             this.button21 = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtMobile = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtCRNote = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtInvoice = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtCAP = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtCheque = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtCRCard = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtLoyalty = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtDeposit = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtBalance = new System.Windows.Forms.TextBox();
+            this.txtAmountReceived = new System.Windows.Forms.TextBox();
+            this.txtVoucher = new System.Windows.Forms.TextBox();
+            this.txtCash = new System.Windows.Forms.TextBox();
+            this.txtTotal = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtValidBalance = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -155,6 +172,20 @@
             this.panel6.Size = new System.Drawing.Size(321, 556);
             this.panel6.TabIndex = 1;
             // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.BackColor = System.Drawing.Color.Maroon;
+            this.button2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.button2.Location = new System.Drawing.Point(14, 471);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(298, 70);
+            this.button2.TabIndex = 11;
+            this.button2.Text = "Cancel";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // button15
             // 
             this.button15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
@@ -166,6 +197,21 @@
             this.button15.TabIndex = 21;
             this.button15.Text = ".";
             this.button15.UseVisualStyleBackColor = false;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackColor = System.Drawing.Color.Teal;
+            this.button1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.button1.Location = new System.Drawing.Point(14, 395);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(298, 70);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "OK";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button13
             // 
@@ -178,6 +224,7 @@
             this.button13.TabIndex = 20;
             this.button13.Text = "00";
             this.button13.UseVisualStyleBackColor = false;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
             // button14
             // 
@@ -190,6 +237,7 @@
             this.button14.TabIndex = 19;
             this.button14.Text = "v";
             this.button14.UseVisualStyleBackColor = false;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
             // button16
             // 
@@ -202,6 +250,7 @@
             this.button16.TabIndex = 17;
             this.button16.Text = ">";
             this.button16.UseVisualStyleBackColor = false;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
             // button17
             // 
@@ -226,6 +275,7 @@
             this.button18.TabIndex = 15;
             this.button18.Text = "<";
             this.button18.UseVisualStyleBackColor = false;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
             // 
             // button20
             // 
@@ -238,6 +288,7 @@
             this.button20.TabIndex = 13;
             this.button20.Text = "^";
             this.button20.UseVisualStyleBackColor = false;
+            this.button20.Click += new System.EventHandler(this.button20_Click);
             // 
             // button10
             // 
@@ -249,6 +300,7 @@
             this.button10.TabIndex = 11;
             this.button10.Text = "CE";
             this.button10.UseVisualStyleBackColor = false;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // button11
             // 
@@ -261,6 +313,7 @@
             this.button11.TabIndex = 10;
             this.button11.Text = "0";
             this.button11.UseVisualStyleBackColor = false;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // button12
             // 
@@ -272,6 +325,7 @@
             this.button12.TabIndex = 9;
             this.button12.Text = "C";
             this.button12.UseVisualStyleBackColor = false;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // button9
             // 
@@ -284,6 +338,7 @@
             this.button9.TabIndex = 8;
             this.button9.Text = "9";
             this.button9.UseVisualStyleBackColor = false;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // button8
             // 
@@ -296,6 +351,7 @@
             this.button8.TabIndex = 7;
             this.button8.Text = "8";
             this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // button7
             // 
@@ -308,6 +364,7 @@
             this.button7.TabIndex = 6;
             this.button7.Text = "7";
             this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button6
             // 
@@ -320,6 +377,7 @@
             this.button6.TabIndex = 5;
             this.button6.Text = "6";
             this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button5
             // 
@@ -332,6 +390,7 @@
             this.button5.TabIndex = 4;
             this.button5.Text = "5";
             this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button4
             // 
@@ -344,6 +403,7 @@
             this.button4.TabIndex = 3;
             this.button4.Text = "4";
             this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button3
             // 
@@ -356,6 +416,7 @@
             this.button3.TabIndex = 2;
             this.button3.Text = "3";
             this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button19
             // 
@@ -368,6 +429,7 @@
             this.button19.TabIndex = 1;
             this.button19.Text = "2";
             this.button19.UseVisualStyleBackColor = false;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
             // 
             // button21
             // 
@@ -380,14 +442,32 @@
             this.button21.TabIndex = 0;
             this.button21.Text = "1";
             this.button21.UseVisualStyleBackColor = false;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
             // 
             // panel5
             // 
-            this.panel5.Controls.Add(this.textBox5);
-            this.panel5.Controls.Add(this.textBox4);
-            this.panel5.Controls.Add(this.textBox3);
-            this.panel5.Controls.Add(this.textBox2);
-            this.panel5.Controls.Add(this.textBox1);
+            this.panel5.Controls.Add(this.txtValidBalance);
+            this.panel5.Controls.Add(this.txtMobile);
+            this.panel5.Controls.Add(this.label14);
+            this.panel5.Controls.Add(this.txtCRNote);
+            this.panel5.Controls.Add(this.label13);
+            this.panel5.Controls.Add(this.txtInvoice);
+            this.panel5.Controls.Add(this.label12);
+            this.panel5.Controls.Add(this.txtCAP);
+            this.panel5.Controls.Add(this.label11);
+            this.panel5.Controls.Add(this.txtCheque);
+            this.panel5.Controls.Add(this.label10);
+            this.panel5.Controls.Add(this.txtCRCard);
+            this.panel5.Controls.Add(this.label9);
+            this.panel5.Controls.Add(this.txtLoyalty);
+            this.panel5.Controls.Add(this.label8);
+            this.panel5.Controls.Add(this.txtDeposit);
+            this.panel5.Controls.Add(this.label7);
+            this.panel5.Controls.Add(this.txtBalance);
+            this.panel5.Controls.Add(this.txtAmountReceived);
+            this.panel5.Controls.Add(this.txtVoucher);
+            this.panel5.Controls.Add(this.txtCash);
+            this.panel5.Controls.Add(this.txtTotal);
             this.panel5.Controls.Add(this.label5);
             this.panel5.Controls.Add(this.label4);
             this.panel5.Controls.Add(this.label3);
@@ -398,84 +478,217 @@
             this.panel5.Size = new System.Drawing.Size(471, 568);
             this.panel5.TabIndex = 4;
             // 
-            // button2
+            // txtMobile
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.BackColor = System.Drawing.Color.Maroon;
-            this.button2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button2.Location = new System.Drawing.Point(14, 471);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(298, 70);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = false;
+            this.txtMobile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMobile.Location = new System.Drawing.Point(185, 366);
+            this.txtMobile.Name = "txtMobile";
+            this.txtMobile.ReadOnly = true;
+            this.txtMobile.Size = new System.Drawing.Size(249, 30);
+            this.txtMobile.TabIndex = 25;
+            this.txtMobile.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // button1
+            // label14
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackColor = System.Drawing.Color.Teal;
-            this.button1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button1.Location = new System.Drawing.Point(14, 395);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(298, 70);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = false;
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(122, 366);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(55, 20);
+            this.label14.TabIndex = 24;
+            this.label14.Text = "Mobile";
             // 
-            // textBox5
+            // txtCRNote
             // 
-            this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox5.Location = new System.Drawing.Point(185, 220);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(249, 26);
-            this.textBox5.TabIndex = 9;
-            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtCRNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCRNote.Location = new System.Drawing.Point(185, 334);
+            this.txtCRNote.Name = "txtCRNote";
+            this.txtCRNote.ReadOnly = true;
+            this.txtCRNote.Size = new System.Drawing.Size(249, 30);
+            this.txtCRNote.TabIndex = 23;
+            this.txtCRNote.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox4
+            // label13
             // 
-            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(185, 186);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(249, 26);
-            this.textBox4.TabIndex = 8;
-            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(109, 337);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(70, 20);
+            this.label13.TabIndex = 22;
+            this.label13.Text = "CR Note";
             // 
-            // textBox3
+            // txtInvoice
             // 
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(185, 103);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(249, 26);
-            this.textBox3.TabIndex = 7;
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtInvoice.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtInvoice.Location = new System.Drawing.Point(185, 302);
+            this.txtInvoice.Name = "txtInvoice";
+            this.txtInvoice.ReadOnly = true;
+            this.txtInvoice.Size = new System.Drawing.Size(249, 30);
+            this.txtInvoice.TabIndex = 21;
+            this.txtInvoice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox2
+            // label12
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(185, 70);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(249, 26);
-            this.textBox2.TabIndex = 6;
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(118, 305);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(59, 20);
+            this.label12.TabIndex = 20;
+            this.label12.Text = "Invoice";
             // 
-            // textBox1
+            // txtCAP
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(185, 19);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(249, 26);
-            this.textBox1.TabIndex = 5;
-            this.textBox1.Text = "10,000.00";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtCAP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCAP.Location = new System.Drawing.Point(185, 270);
+            this.txtCAP.Name = "txtCAP";
+            this.txtCAP.ReadOnly = true;
+            this.txtCAP.Size = new System.Drawing.Size(249, 30);
+            this.txtCAP.TabIndex = 19;
+            this.txtCAP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(138, 270);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 20);
+            this.label11.TabIndex = 18;
+            this.label11.Text = "CAP";
+            // 
+            // txtCheque
+            // 
+            this.txtCheque.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCheque.Location = new System.Drawing.Point(185, 238);
+            this.txtCheque.Name = "txtCheque";
+            this.txtCheque.ReadOnly = true;
+            this.txtCheque.Size = new System.Drawing.Size(249, 30);
+            this.txtCheque.TabIndex = 17;
+            this.txtCheque.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(114, 238);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(65, 20);
+            this.label10.TabIndex = 16;
+            this.label10.Text = "Cheque";
+            // 
+            // txtCRCard
+            // 
+            this.txtCRCard.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCRCard.Location = new System.Drawing.Point(185, 206);
+            this.txtCRCard.Name = "txtCRCard";
+            this.txtCRCard.ReadOnly = true;
+            this.txtCRCard.Size = new System.Drawing.Size(249, 30);
+            this.txtCRCard.TabIndex = 15;
+            this.txtCRCard.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(109, 209);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(70, 20);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "CR Card";
+            // 
+            // txtLoyalty
+            // 
+            this.txtLoyalty.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLoyalty.Location = new System.Drawing.Point(185, 174);
+            this.txtLoyalty.Name = "txtLoyalty";
+            this.txtLoyalty.ReadOnly = true;
+            this.txtLoyalty.Size = new System.Drawing.Size(249, 30);
+            this.txtLoyalty.TabIndex = 13;
+            this.txtLoyalty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(118, 174);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(58, 20);
+            this.label8.TabIndex = 12;
+            this.label8.Text = "Loyalty";
+            // 
+            // txtDeposit
+            // 
+            this.txtDeposit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDeposit.Location = new System.Drawing.Point(185, 142);
+            this.txtDeposit.Name = "txtDeposit";
+            this.txtDeposit.ReadOnly = true;
+            this.txtDeposit.Size = new System.Drawing.Size(249, 30);
+            this.txtDeposit.TabIndex = 11;
+            this.txtDeposit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(112, 142);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(64, 20);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "Deposit";
+            // 
+            // txtBalance
+            // 
+            this.txtBalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBalance.Location = new System.Drawing.Point(185, 460);
+            this.txtBalance.Name = "txtBalance";
+            this.txtBalance.ReadOnly = true;
+            this.txtBalance.Size = new System.Drawing.Size(249, 30);
+            this.txtBalance.TabIndex = 9;
+            this.txtBalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtBalance.TextChanged += new System.EventHandler(this.txtBalance_TextChanged);
+            // 
+            // txtAmountReceived
+            // 
+            this.txtAmountReceived.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAmountReceived.Location = new System.Drawing.Point(185, 426);
+            this.txtAmountReceived.Name = "txtAmountReceived";
+            this.txtAmountReceived.ReadOnly = true;
+            this.txtAmountReceived.Size = new System.Drawing.Size(249, 30);
+            this.txtAmountReceived.TabIndex = 8;
+            this.txtAmountReceived.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtVoucher
+            // 
+            this.txtVoucher.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtVoucher.Location = new System.Drawing.Point(185, 103);
+            this.txtVoucher.Name = "txtVoucher";
+            this.txtVoucher.ReadOnly = true;
+            this.txtVoucher.Size = new System.Drawing.Size(249, 30);
+            this.txtVoucher.TabIndex = 7;
+            this.txtVoucher.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtCash
+            // 
+            this.txtCash.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCash.Location = new System.Drawing.Point(185, 70);
+            this.txtCash.Name = "txtCash";
+            this.txtCash.Size = new System.Drawing.Size(249, 30);
+            this.txtCash.TabIndex = 6;
+            this.txtCash.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtCash.TextChanged += new System.EventHandler(this.txtCash_TextChanged);
+            this.txtCash.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCash_KeyDown);
+            this.txtCash.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtCash_KeyUp);
+            this.txtCash.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.txtCash_MouseDoubleClick);
+            // 
+            // txtTotal
+            // 
+            this.txtTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotal.Location = new System.Drawing.Point(185, 19);
+            this.txtTotal.Name = "txtTotal";
+            this.txtTotal.ReadOnly = true;
+            this.txtTotal.Size = new System.Drawing.Size(249, 30);
+            this.txtTotal.TabIndex = 5;
+            this.txtTotal.Text = "10,000.00";
+            this.txtTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(112, 220);
+            this.label5.Location = new System.Drawing.Point(112, 460);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 20);
             this.label5.TabIndex = 4;
@@ -484,7 +697,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(60, 186);
+            this.label4.Location = new System.Drawing.Point(60, 426);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(119, 20);
             this.label4.TabIndex = 3;
@@ -493,11 +706,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(130, 103);
+            this.label3.Location = new System.Drawing.Point(110, 103);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 20);
+            this.label3.Size = new System.Drawing.Size(69, 20);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Other";
+            this.label3.Text = "Voucher";
             // 
             // label2
             // 
@@ -517,7 +730,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Total Amount";
             // 
-            // PayPointForm
+            // txtValidBalance
+            // 
+            this.txtValidBalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtValidBalance.Location = new System.Drawing.Point(6, 517);
+            this.txtValidBalance.Name = "txtValidBalance";
+            this.txtValidBalance.ReadOnly = true;
+            this.txtValidBalance.Size = new System.Drawing.Size(428, 30);
+            this.txtValidBalance.TabIndex = 26;
+            this.txtValidBalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // FormPayPoint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -532,11 +755,12 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "PayPointForm";
+            this.Name = "FormPayPoint";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Paypoint";
+            this.Load += new System.EventHandler(this.FormPayPoint_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -559,11 +783,11 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtBalance;
+        private System.Windows.Forms.TextBox txtAmountReceived;
+        private System.Windows.Forms.TextBox txtVoucher;
+        private System.Windows.Forms.TextBox txtCash;
+        private System.Windows.Forms.TextBox txtTotal;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label6;
@@ -587,5 +811,22 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button19;
         private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.TextBox txtMobile;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtCRNote;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtInvoice;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox txtCAP;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtCheque;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtCRCard;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtLoyalty;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtDeposit;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtValidBalance;
     }
 }

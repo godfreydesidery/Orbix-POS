@@ -127,6 +127,18 @@
     <Compile Include="gui\FormDiscount.Designer.cs">
       <DependentUpon>FormDiscount.cs</DependentUpon>
     </Compile>
+    <Compile Include="gui\FormFiscalPrinter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormFiscalPrinter.Designer.cs">
+      <DependentUpon>FormFiscalPrinter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FormNumInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormNumInput.Designer.cs">
+      <DependentUpon>FormNumInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="gui\FormOrder.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +150,12 @@
     </Compile>
     <Compile Include="gui\FormPrinters.Designer.cs">
       <DependentUpon>FormPrinters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FormSearchProduct.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormSearchProduct.Designer.cs">
+      <DependentUpon>FormSearchProduct.cs</DependentUpon>
     </Compile>
     <Compile Include="gui\LockForm.cs">
       <SubType>Form</SubType>

@@ -21,5 +21,10 @@ namespace POS
         {
             this.Visible = false;
         }
+
+        private void CashPickUpForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

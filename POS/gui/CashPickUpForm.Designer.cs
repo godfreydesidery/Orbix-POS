@@ -167,6 +167,7 @@
             this.Name = "CashPickUpForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CashPickUp";
+            this.Load += new System.EventHandler(this.CashPickUpForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

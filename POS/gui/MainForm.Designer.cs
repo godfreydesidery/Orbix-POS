@@ -71,7 +71,7 @@
             this.Column8 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtGrandTotal = new System.Windows.Forms.TextBox();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgrdProductList)).BeginInit();
             this.panel1.SuspendLayout();
@@ -576,15 +576,16 @@
             this.panel2.Size = new System.Drawing.Size(1487, 112);
             this.panel2.TabIndex = 6;
             // 
-            // textBox1
+            // txtGrandTotal
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(1175, 458);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(298, 44);
-            this.textBox1.TabIndex = 7;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtGrandTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtGrandTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtGrandTotal.Location = new System.Drawing.Point(1175, 458);
+            this.txtGrandTotal.Name = "txtGrandTotal";
+            this.txtGrandTotal.ReadOnly = true;
+            this.txtGrandTotal.Size = new System.Drawing.Size(298, 44);
+            this.txtGrandTotal.TabIndex = 7;
+            this.txtGrandTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // MainForm
             // 
@@ -592,7 +593,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(1487, 753);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtGrandTotal);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.panel2);
@@ -659,7 +660,7 @@
         private System.Windows.Forms.Button btnLock;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtGrandTotal;
     }
 }
 

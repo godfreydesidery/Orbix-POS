@@ -11,7 +11,7 @@ namespace POS.general
     {
         public static string CURRENT_DATE = "";
 
-        public string bussinessDate;
+        public static string bussinessDate  = "";
 
         // Install-Package Microsoft.VisualBasic
 

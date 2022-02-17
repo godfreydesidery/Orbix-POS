@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -42,16 +43,10 @@ namespace POS
         {
             lblAlias.Text = POS.general.Day.CURRENT_DATE + " Welcome " + User.ALIAS;
 
-            tspStatus.Text = tspStatus.Text + "Logged in";
-            tspUser.Text = tspUser.Text + User.FIRST_NAME + " " + User.LAST_NAME;
-            tspLogginTime.Text = tspLogginTime.Text + User.LOGIN_TIME;
-            tpsSystDate.Text = tpsSystDate.Text + Day.systemDate;
+            
             if (User.authorize("SELLING"))
             {
-                dtgrdViewItemList.Enabled = true;
-                tlsrpItemcode.Enabled = true;
-                tlstrDescription.Enabled = true;
-                tlstrpBarcode.Enabled = true;
+                dtgrdProductList.Enabled = true;               
                 btnPay.Enabled = true;
             }
 
@@ -66,7 +61,7 @@ namespace POS
             if (dtgrdProductList.RowCount > 0 & isAllVoid() == false)
             {
                 FormPayPoint frmPayPoint = new FormPayPoint();
-                frmPayPoint.txtTotal.Text = String.Format("{0:0.00}", txtGrandTotal.Text);
+                FormPayPoint.total = (double) LCurrency.getValue(txtGrandTotal.Text); //String.Format("{0:0.00}", txtGrandTotal.Text);
                 frmPayPoint.ShowDialog(this);
                 if (frmPayPoint.DialogResult == System.Windows.Forms.DialogResult.Cancel)
                 {
@@ -75,32 +70,32 @@ namespace POS
                 else
                 {
                     var receipt = new Receipt();
-                    receipt.cash = frmPayPoint.cashReceived;
-                    receipt.voucher = frmPayPoint.voucher;
-                    receipt.deposit = frmPayPoint.deposit;
-                    receipt.loyalty = frmPayPoint.loyalty;
-                    receipt.crCard = frmPayPoint.CRCard;
-                    receipt.cheque = frmPayPoint.cheque;
-                    receipt.cap = frmPayPoint.CAP;
-                    receipt.invoice = frmPayPoint.invoice;
-                    receipt.crNote = frmPayPoint.CRNote;
-                    receipt.mobile = frmPayPoint.mobile;
-                    receipt.other = frmPayPoint.other;
-                    string cashReceived = frmPayPoint.cashReceived;
-                    string balance = frmPayPoint.balance;
+                    receipt.cash = FormPayPoint.cash;
+                    receipt.voucher = FormPayPoint.voucher;
+                    receipt.deposit = FormPayPoint.deposit;
+                    receipt.loyalty = FormPayPoint.loyalty;
+                    receipt.crCard = FormPayPoint.CRCard;
+                    receipt.cheque = FormPayPoint.cheque;
+                    receipt.cap = FormPayPoint.CAP;
+                    receipt.invoice = FormPayPoint.invoice;
+                    receipt.crNote = FormPayPoint.CRNote;
+                    receipt.mobile = FormPayPoint.mobile;
+                    receipt.other = FormPayPoint.other;
+                    string cashReceived = FormPayPoint.cashReceived;
+                    string balance = FormPayPoint.balance;
                     receipt.no = "NA";
                     receipt.till.no = Till.TILLNO;
-                    receipt.issueDate = DateAndTime.Day.systemDate;
+                  //  receipt.issueDate = general.Day.bussinessDate;
                     receipt.cart.id = txtId.Text;
                     var response = new object();
                     var json = new JObject();
                     response = Web.post(receipt, "receipts/new");
                     var receiptToPrint = JsonConvert.DeserializeObject<Receipt>(response.ToString());
                     string tillNo = receiptToPrint.till.no;
-                    string date_ = DateAndTime.Day.systemDate;
+                    string date_ = general.Day.bussinessDate;
                     string receiptNo = receiptToPrint.no;
-                    string TIN = Company.TIN;
-                    string VRN = Company.VRN;
+                    string TIN = Company.TIN.ToString();
+                    string VRN = Company.VRN.ToString();
                     if (printReceipt(tillNo, receiptNo, date_, TIN, VRN, cashReceived, balance) == true)
                     {
                     }
@@ -478,7 +473,7 @@ namespace POS
                 vat = product.vat;
                 qty = q;
                 price = product.sellingPriceVatIncl;
-                amount = Val(qty) * price * (1 - Val(discountRatio) / 100);
+                amount = (double) qty * price * (1 - discountRatio / 100);
                 found = true;
                 if (string.IsNullOrEmpty(barcode))
                 {
@@ -501,20 +496,20 @@ namespace POS
                     dtgrdProductList[0, row].Value = barcode;
                     dtgrdProductList[1, row].Value = code;
                     dtgrdProductList[2, row].Value = description;
-                    dtgrdProductList[4, row].Value = LCurrency.displayValue(price.ToString);
-                    dtgrdProductList[5, row].Value = LCurrency.displayValue(vat.ToString);
-                    dtgrdProductList[6, row].Value = LCurrency.displayValue(discountRatio.ToString);
+                    dtgrdProductList[4, row].Value = LCurrency.displayValue(price.ToString());
+                    dtgrdProductList[5, row].Value = LCurrency.displayValue(vat.ToString());
+                    dtgrdProductList[6, row].Value = LCurrency.displayValue(discountRatio.ToString());
                     dtgrdProductList[7, row].Value = qty;
-                    dtgrdProductList[8, row].Value = LCurrency.displayValue(amount.ToString);
+                    dtgrdProductList[8, row].Value = LCurrency.displayValue(amount.ToString());
                     dtgrdProductList[10, row].Value = description;
                     dtgrdProductList[0, row].ReadOnly = true;
                     dtgrdProductList[1, row].ReadOnly = true;
                     dtgrdProductList[2, row].ReadOnly = true;
                     seq = seq + 1;
-                    AddToCart("", Till.TILLNO, dtgrdProductList.Item(0, row).Value, dtgrdProductList.Item(1, row).Value, dtgrdProductList.Item(2, row).Value, dtgrdProductList.Item(4, row).Value, dtgrdProductList.Item(5, row).Value, dtgrdProductList.Item(6, row).Value, dtgrdProductList.Item(7, row).Value, dtgrdProductList.Item(8, row).Value, dtgrdProductList.Item(10, row).Value);
+                    AddToCart("", Till.TILLNO, dtgrdProductList[0, row].Value.ToString(), dtgrdProductList[1, row].Value.ToString(), dtgrdProductList[2, row].Value.ToString(),(double)dtgrdProductList[4, row].Value, (double)dtgrdProductList[5, row].Value, (double)dtgrdProductList[6, row].Value, (double)dtgrdProductList[7, row].Value, (double)dtgrdProductList[8, row].Value, dtgrdProductList[10, row].Value.ToString());
                     if (dtgrdProductList.RowCount > 1)
                     {
-                        if (dtgrdProductList.Item(7, row - 1).Value > 1)
+                        if ((int)dtgrdProductList[7, row - 1].Value > 1)
                         {
                             SaleSequence.multiple = true;
                         }
@@ -559,7 +554,7 @@ namespace POS
                 int max = dtgrdProductList.RowCount - 2;
                 for (int i = max; i >= 0; i -= 1)
                 {
-                    if (dtgrdProductList[1, i].Value == "" | (double)dtgrdProductList[7, i].Value <= 0)
+                    if ((string)dtgrdProductList[1, i].Value == "" | (double)dtgrdProductList[7, i].Value <= 0)
                     {
                         // dtgrdProductList.Rows.RemoveAt(i)
                     }
@@ -581,7 +576,6 @@ namespace POS
                         dtgrdProductList[9, voidRow].Value = true;
                     }
                 }
-
                 voidRow = -1;
             }
             catch (Exception ex)
@@ -624,10 +618,10 @@ namespace POS
                 }
 
                 _grandTotal = _total;
-                txtTotal.Text = LCurrency.displayValue(_total.ToString());
-                txtDiscount.Text = LCurrency.displayValue(_discount.ToString());
-                txtVAT.Text = LCurrency.displayValue(_vat.ToString());
-                txtGrandTotal.Text = LCurrency.displayValue(_grandTotal.ToString());
+                txtTotal.Text = (string) LCurrency.displayValue(_total.ToString());
+                txtDiscount.Text = (string) LCurrency.displayValue(_discount.ToString());
+                txtTax.Text = (string) LCurrency.displayValue(_vat.ToString());
+                txtGrandTotal.Text = (string) LCurrency.displayValue(_grandTotal.ToString());
             }
             catch (Exception ex)
             {
@@ -666,7 +660,7 @@ namespace POS
                     {
                         FormAllow frmAllow = new FormAllow();
                         frmAllow.ShowDialog();
-                        if (frmAllow.allowed == true)
+                        if (FormAllow.allowed == true)
                         {
                             allowVoid = true;
                         }
@@ -785,7 +779,7 @@ namespace POS
             return allVoid;
         }
 
-        private object printReceipt(string tillNo, string receiptNo, string date_, string TIN, string VRN, string cash, string balance)
+        private bool printReceipt(string tillNo, string receiptNo, string date_, string TIN, string VRN, string cash, string balance)
         {
             bool printed = false;
             int size = -1;
@@ -797,14 +791,14 @@ namespace POS
                 }
             }
 
-            var itemCode = new string[size + 1];
+            var code = new string[size + 1];
             var descr = new string[size + 1];
             var qty = new string[size + 1];
             var price = new string[size + 1];
             var tax = new string[size + 1];
             var amount = new string[size + 1];
             string subTotal = txtTotal.Text;
-            string totalVat = txtVAT.Text;
+            string totalVat = txtTax.Text;
             string total = txtGrandTotal.Text;
             string discountRatio = txtDiscount.Text;
             int count = 0;
@@ -812,8 +806,8 @@ namespace POS
             {
                 if ((bool) dtgrdProductList[9, i].Value == false)
                 {
-                    itemCode[count] = dtgrdProductList[1, i].Value.ToString();
-                    descr[count] = new Product().getShortDescription(itemCode[count]);
+                    code[count] = dtgrdProductList[1, i].Value.ToString();
+                    descr[count] = new Product().getShortDescription(code[count]);
                     qty[count] =dtgrdProductList[7, i].Value.ToString();
                     price[count] = dtgrdProductList[4, i].Value.ToString();
                     tax[count] = dtgrdProductList[5, i].Value.ToString();
@@ -822,7 +816,7 @@ namespace POS
                 }
             }
 
-            if (PointOfSale.printReceipt(tillNo, receiptNo, date_, TIN, VRN, itemCode, descr, qty, price, tax, amount, subTotal, totalVat, total, cash, balance) == true)
+            if ((bool)PointOfSale.printReceipt(tillNo, receiptNo, date_, TIN, VRN, code, descr, qty, price, tax, amount, subTotal, totalVat, total, cash, balance) == true)
             {
                 printed = true;
             }
@@ -832,7 +826,7 @@ namespace POS
         string saleId = "";
 
 
-        private object updateQty(double qty, string sn)
+        private bool updateQty(double qty, string sn)
         {
             var detail = new CartDetail();
             detail.id = sn;
@@ -852,7 +846,7 @@ namespace POS
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
-            RECEIPT_NO0 = new Receipt().makeReceipt(Till.TILLNO, general.Day.systemDate);
+            RECEIPT_NO0 = new Receipt().makeReceipt(Till.TILLNO, general.Day.bussinessDate);
             loadCart(txtId.Text, Till.TILLNO);
         }
 
@@ -868,7 +862,7 @@ namespace POS
                         var list = new List<string>();
                         var mySource = new AutoCompleteStringCollection();
                         var product_ = new Product();
-                        list = product_.getDescriptions;
+                        list = product_.getDescriptions();
                         mySource.AddRange(list.ToArray());
                         control.AutoCompleteCustomSource = mySource;
                         control.AutoCompleteMode = AutoCompleteMode.Suggest;
@@ -894,20 +888,19 @@ namespace POS
 
         private void startOSK()
         {
-            var old = default(long);
+            long old;
             if (Environment.Is64BitOperatingSystem)
             {
-                if (Wow64DisableWow64FsRedirection[old])
+                if (Wow64DisableWow64FsRedirection(old))
                 {
                     Process.Start(osk);
-                    Wow64EnableWow64FsRedirection[old];
+                    Wow64EnableWow64FsRedirection(old);
                 }
             }
             else
-            {
-                System.Diagnostics.Process.Start(osk);
-            }
+                Process.Start(osk);
         }
+
 
         private void AddToCart(string sn, string tillNo, string barcode, string code, string description, double sellingPriceVatIncl, double vat, double discountRatio, double qty, double amount, string shortDescr)
         {
@@ -938,11 +931,11 @@ namespace POS
             json = JObject.Parse(response.ToString());
             if (txtId.Text == "")
             {
-                txtId.Text = json.SelectToken("id");
+                txtId.Text = json.SelectToken("id").ToString();
             }
         }
 
-        private object checkVoid(string tillNo, string sn)
+        private bool checkVoid(string tillNo, string sn)
         {
             var response = new object();
             var json = new JObject();
@@ -1015,7 +1008,7 @@ namespace POS
                     dtgrdCell.Value = "";
                     dtgrdRow.Cells.Add(dtgrdCell);
                     dtgrdCell = new DataGridViewTextBoxCell();
-                    dtgrdCell.Value = LCurrency.displayValue(detail.sellingPriceVatIncl);
+                    dtgrdCell.Value = LCurrency.displayValue(detail.sellingPriceVatIncl.ToString());
                     dtgrdRow.Cells.Add(dtgrdCell);
                     dtgrdCell = new DataGridViewTextBoxCell();
                     dtgrdCell.Value = detail.vat;

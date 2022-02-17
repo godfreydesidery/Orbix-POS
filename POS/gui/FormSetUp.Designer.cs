@@ -1,6 +1,6 @@
 ﻿namespace POS
 {
-    partial class SetupForm
+    partial class FormSetUp
     {
         /// <summary>
         /// Required designer variable.
@@ -69,6 +69,7 @@
             this.btnTestConnection.TabIndex = 3;
             this.btnTestConnection.Text = "Test Connection";
             this.btnTestConnection.UseVisualStyleBackColor = true;
+            this.btnTestConnection.Click += new System.EventHandler(this.btnTestConnection_Click);
             // 
             // btnOK
             // 
@@ -90,7 +91,7 @@
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // SetupForm
+            // FormSetUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -104,7 +105,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SetupForm";
+            this.Name = "FormSetUp";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Server Setup";
             this.Load += new System.EventHandler(this.SetupForm_Load);

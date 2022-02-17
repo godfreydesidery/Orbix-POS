@@ -1,4 +1,5 @@
-﻿using System;
+﻿using POS.general;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,7 +20,7 @@ namespace POS
 
         private void btnUnlock_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
+            unlock();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -29,6 +30,59 @@ namespace POS
             {
                 System.Windows.Forms.Application.Exit();
             }      
+        }
+
+        private object unlock()
+        {
+            string username = User.USERNAME_;
+            string password = User.PASSWORD_;
+            if (txtUsername.Text == username & Hash.check(txtPassword.Text, password) == true)
+            {
+                this.Dispose();
+            }
+            else
+            {
+                MessageBox.Show("Unlock failed. Wrong username and password", "Error: Unlock fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtUsername.Text = "";
+                txtPassword.Text = "";
+                txtUsername.Focus();
+            }
+
+            return null;
+        }
+
+        private void txtUsername_Enter(object sender, EventArgs e)
+        {
+            txtPassword.Text = "";
+        }
+
+        private void txtUsername_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtPassword.Text = "";
+                txtPassword.Focus();
+            }
+
+            if (e.KeyCode == Keys.Down | e.KeyCode == Keys.Up)
+            {
+                txtPassword.Text = "";
+                txtPassword.Focus();
+            }
+        }
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                unlock();
+            }
+
+            if (e.KeyCode == Keys.Down | e.KeyCode == Keys.Up)
+            {
+                txtPassword.Text = "";
+                txtUsername.Focus();
+            }
         }
     }
 }

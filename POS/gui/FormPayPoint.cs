@@ -24,6 +24,7 @@ namespace POS
         public static double mobile = 0d;
         public static double cheque = 0d;
         public static double other = 0d;
+
         public static double total = 0d;
         public static string cashReceived = "";
         public static string balance = "";
@@ -204,6 +205,7 @@ namespace POS
         {
             {
                 clearAll();
+                txtTotal.Text = String.Format("{0:0.00}", total);
                 RandomKeyGenerator KeyGen;
                 int NumKeys;
                 int i_Keys;
@@ -331,6 +333,11 @@ namespace POS
         private void button16_Click(object sender, EventArgs e)
         {
             place("{RIGHT}");
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

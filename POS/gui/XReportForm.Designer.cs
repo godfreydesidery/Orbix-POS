@@ -73,6 +73,7 @@
             this.btnPrint.TabIndex = 3;
             this.btnPrint.Text = "Print";
             this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // btnClose
             // 
@@ -99,6 +100,7 @@
             this.Name = "XReportForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "XReportForm";
+            this.Load += new System.EventHandler(this.XReportForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

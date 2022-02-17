@@ -54,6 +54,7 @@
             this.btnCancel.TabIndex = 22;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOK
             // 
@@ -67,6 +68,7 @@
             this.btnOK.TabIndex = 21;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = false;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // txtNewFloat
             // 
@@ -76,6 +78,7 @@
             this.txtNewFloat.Size = new System.Drawing.Size(258, 26);
             this.txtNewFloat.TabIndex = 20;
             this.txtNewFloat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtNewFloat.TextChanged += new System.EventHandler(this.txtNewFloat_TextChanged);
             // 
             // txtAdd
             // 
@@ -84,6 +87,8 @@
             this.txtAdd.Size = new System.Drawing.Size(258, 26);
             this.txtAdd.TabIndex = 19;
             this.txtAdd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtAdd.TextChanged += new System.EventHandler(this.txtAdd_TextChanged);
+            this.txtAdd.Enter += new System.EventHandler(this.txtAdd_Enter);
             // 
             // txtCurrentFloat
             // 
@@ -156,6 +161,8 @@
             this.txtDeduct.Size = new System.Drawing.Size(258, 26);
             this.txtDeduct.TabIndex = 24;
             this.txtDeduct.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtDeduct.TextChanged += new System.EventHandler(this.txtDeduct_TextChanged);
+            this.txtDeduct.Enter += new System.EventHandler(this.txtDeduct_Enter);
             // 
             // label5
             // 
@@ -189,6 +196,7 @@
             this.Name = "FloatForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FloatForm";
+            this.Load += new System.EventHandler(this.FloatForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -57,7 +57,7 @@
             this.btnClose.BackColor = System.Drawing.Color.Maroon;
             this.btnClose.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.btnClose.Location = new System.Drawing.Point(355, 322);
+            this.btnClose.Location = new System.Drawing.Point(355, 275);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(73, 70);
             this.btnClose.TabIndex = 4;
@@ -111,6 +111,7 @@
             this.txtAmount.Size = new System.Drawing.Size(258, 26);
             this.txtAmount.TabIndex = 9;
             this.txtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtAmount.TextChanged += new System.EventHandler(this.txtAmount_TextChanged);
             // 
             // txtBalance
             // 
@@ -120,6 +121,7 @@
             this.txtBalance.Size = new System.Drawing.Size(258, 26);
             this.txtBalance.TabIndex = 10;
             this.txtBalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtBalance.TextChanged += new System.EventHandler(this.txtBalance_TextChanged);
             // 
             // btnOK
             // 
@@ -133,6 +135,7 @@
             this.btnOK.TabIndex = 11;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = false;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
@@ -146,13 +149,14 @@
             this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // CashPickUpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(440, 404);
+            this.ClientSize = new System.Drawing.Size(440, 361);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtBalance);

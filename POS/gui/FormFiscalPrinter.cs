@@ -16,5 +16,28 @@ namespace POS.gui
         {
             InitializeComponent();
         }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (save(txtPrinterName.Text, txtOperatorCode.Text, txtOperatorPassword.Text) == true)
+            {
+            }
+            else
+            {
+                MessageBox.Show("Operation Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private bool save(string name, string operatorCode, string operatorPassword)
+        {
+            bool saved = false;
+            // save printer information
+
+            return saved;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+        }
     }
 }

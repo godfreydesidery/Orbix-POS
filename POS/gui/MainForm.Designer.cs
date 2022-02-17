@@ -72,6 +72,13 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.txtGrandTotal = new System.Windows.Forms.TextBox();
+            this.txtId = new System.Windows.Forms.TextBox();
+            this.txtDiscount = new System.Windows.Forms.TextBox();
+            this.txtTax = new System.Windows.Forms.TextBox();
+            this.txtTotal = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgrdProductList)).BeginInit();
             this.panel1.SuspendLayout();
@@ -568,6 +575,13 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.txtTotal);
+            this.panel2.Controls.Add(this.txtTax);
+            this.panel2.Controls.Add(this.txtDiscount);
+            this.panel2.Controls.Add(this.txtId);
             this.panel2.Controls.Add(this.lblAlias);
             this.panel2.Controls.Add(this.btnSupplies);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -586,6 +600,68 @@
             this.txtGrandTotal.Size = new System.Drawing.Size(298, 44);
             this.txtGrandTotal.TabIndex = 7;
             this.txtGrandTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtId
+            // 
+            this.txtId.Location = new System.Drawing.Point(156, 12);
+            this.txtId.Name = "txtId";
+            this.txtId.Size = new System.Drawing.Size(47, 26);
+            this.txtId.TabIndex = 10;
+            this.txtId.Visible = false;
+            // 
+            // txtDiscount
+            // 
+            this.txtDiscount.Location = new System.Drawing.Point(1318, 74);
+            this.txtDiscount.Name = "txtDiscount";
+            this.txtDiscount.ReadOnly = true;
+            this.txtDiscount.Size = new System.Drawing.Size(155, 26);
+            this.txtDiscount.TabIndex = 11;
+            this.txtDiscount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtTax
+            // 
+            this.txtTax.Location = new System.Drawing.Point(1157, 74);
+            this.txtTax.Name = "txtTax";
+            this.txtTax.ReadOnly = true;
+            this.txtTax.Size = new System.Drawing.Size(155, 26);
+            this.txtTax.TabIndex = 12;
+            this.txtTax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtTotal
+            // 
+            this.txtTotal.Location = new System.Drawing.Point(996, 74);
+            this.txtTotal.Name = "txtTotal";
+            this.txtTotal.ReadOnly = true;
+            this.txtTotal.Size = new System.Drawing.Size(155, 26);
+            this.txtTotal.TabIndex = 13;
+            this.txtTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(992, 51);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 20);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Total";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(1153, 51);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 20);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "Tax";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1318, 51);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(72, 20);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "Discount";
             // 
             // MainForm
             // 
@@ -661,6 +737,13 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TextBox txtGrandTotal;
+        private System.Windows.Forms.TextBox txtId;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtTotal;
+        private System.Windows.Forms.TextBox txtTax;
+        private System.Windows.Forms.TextBox txtDiscount;
     }
 }
 

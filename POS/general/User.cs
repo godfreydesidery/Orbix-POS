@@ -88,7 +88,7 @@ namespace POS.general
                     res = Web.get_("days/get_bussiness_date");
                     jobj = JObject.Parse(res.ToString());
                     day = JsonConvert.DeserializeObject<Day>(jobj.ToString());
-                    Day.CURRENT_DATE = day.bussinessDate;
+                    Day.CURRENT_DATE = Day.bussinessDate;
                 }
                 catch (Exception e)
                 {

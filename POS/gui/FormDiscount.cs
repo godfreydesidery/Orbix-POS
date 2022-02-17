@@ -16,5 +16,18 @@ namespace POS.gui
         {
             InitializeComponent();
         }
+
+        private void txtDiscount_TextChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToDouble(txtDiscount.Text) <= 0)
+            {
+                txtDiscount.Text = "0";
+            }
+        }
+
+        private void FormDiscount_Load(object sender, EventArgs e)
+        {
+            txtDiscount.Text = "0";
+        }
     }
 }

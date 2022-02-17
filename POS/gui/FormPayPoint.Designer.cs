@@ -56,6 +56,7 @@
             this.button19 = new System.Windows.Forms.Button();
             this.button21 = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.txtValidBalance = new System.Windows.Forms.TextBox();
             this.txtMobile = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.txtCRNote = new System.Windows.Forms.TextBox();
@@ -82,7 +83,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtValidBalance = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -98,6 +98,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(854, 49);
             this.panel1.TabIndex = 0;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // label6
             // 
@@ -478,6 +479,16 @@
             this.panel5.Size = new System.Drawing.Size(471, 568);
             this.panel5.TabIndex = 4;
             // 
+            // txtValidBalance
+            // 
+            this.txtValidBalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtValidBalance.Location = new System.Drawing.Point(6, 517);
+            this.txtValidBalance.Name = "txtValidBalance";
+            this.txtValidBalance.ReadOnly = true;
+            this.txtValidBalance.Size = new System.Drawing.Size(428, 30);
+            this.txtValidBalance.TabIndex = 26;
+            this.txtValidBalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // txtMobile
             // 
             this.txtMobile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -729,16 +740,6 @@
             this.label1.Size = new System.Drawing.Size(104, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Total Amount";
-            // 
-            // txtValidBalance
-            // 
-            this.txtValidBalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtValidBalance.Location = new System.Drawing.Point(6, 517);
-            this.txtValidBalance.Name = "txtValidBalance";
-            this.txtValidBalance.ReadOnly = true;
-            this.txtValidBalance.Size = new System.Drawing.Size(428, 30);
-            this.txtValidBalance.TabIndex = 26;
-            this.txtValidBalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FormPayPoint
             // 

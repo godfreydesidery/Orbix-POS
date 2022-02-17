@@ -46,7 +46,7 @@ namespace POS.general
                 list = JsonConvert.DeserializeObject<List<string>>(response.ToString());
                 return list;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return list;
             }              

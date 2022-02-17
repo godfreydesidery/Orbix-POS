@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,27 +16,24 @@ namespace POS.general
         public double GL_REORDER_LEVEL = 0d;
         public double GL_DEFAULT_REORDER_QTY = 0d;
 
-        public string getInventory(string itemCode)
+        public string getInventory(string code)
         {
             string value = "";
             try
             {
-                var conn = new MySqlConnection(Database.conString);
-                var command = new MySqlCommand();
-                // create bar code
-                string codeQuery = "SELECT  `qty` FROM `inventorys` WHERE `item_code`='" + itemCode + "'";
-                conn.Open();
-                command.CommandText = codeQuery;
-                command.Connection = conn;
-                command.CommandType = CommandType.Text;
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read)
-                {
-                    value = reader.GetString("qty");
-                    break;
-                }
 
-                conn.Close();
+                var response = new object();
+                var json = new JObject();
+                try
+                {
+                    response = Web.get_("products/get_inventory?code=" + code);
+                    json = JObject.Parse(response.ToString());
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+                value = JsonConvert.DeserializeObject<string>(json.ToString());
             }
             catch (Exception ex)
             {
@@ -44,23 +43,25 @@ namespace POS.general
             return value;
         }
 
-        public bool adjustInventory(string itemCode, double value)
+        public bool adjustInventory(string code, double value)
         {
             bool success = false;
             string actValue = value.ToString();
             try
             {
-                var conn = new MySqlConnection(Database.conString);
-                var command = new MySqlCommand();
-                // create bar code
-                string query = "UPDATE `inventorys` SET `qty`=`qty`+" + actValue + " WHERE `item_code`='" + itemCode + "'";
-                conn.Open();
-                command.CommandText = query;
-                command.Connection = conn;
-                command.CommandType = CommandType.Text;
-                command.ExecuteNonQuery();
-                conn.Close();
-                success = true;
+                var response = new object();
+                var json = new JObject();
+                try
+                {
+                    response = Web.get_("credit_notes/get_crnoteno?code=" + code);
+                    json = JObject.Parse(response.ToString());
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+                return JsonConvert.DeserializeObject<bool>(json.ToString());
+                
             }
             catch (Exception ex)
             {

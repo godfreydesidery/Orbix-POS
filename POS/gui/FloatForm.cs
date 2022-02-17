@@ -84,7 +84,6 @@ namespace POS
         private void btnOK_Click(object sender, EventArgs e)
         {
             DialogResult res = 0;
-            string op = "";
             if (Convert.ToDouble(txtAdd.Text) > 0)
             {
                 txtDeduct.Text = "";

@@ -34,6 +34,8 @@ namespace POS
         bool allowVoid = false;
         int seq = 0;
 
+        int voidRow = -1;
+
         public MainForm()
         {
             InitializeComponent();
@@ -125,7 +127,7 @@ namespace POS
 
         private void button22_Click(object sender, EventArgs e)
         {
-            PettyCashForm form = new PettyCashForm();
+            FormPettyCash form = new FormPettyCash();
             form.ShowDialog();
         }
 
@@ -175,7 +177,7 @@ namespace POS
                     SendKeys.Send(key);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // MsgBox(ex.StackTrace)
                 try
@@ -200,7 +202,7 @@ namespace POS
                 qty = (double)dtgrdProductList[7, e.RowIndex].Value;
                 sn = (string)dtgrdProductList[11, e.RowIndex].Value;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             if ((double)dtgrdProductList[7, e.RowIndex].Value >= 0 & (double)dtgrdProductList[7, e.RowIndex].Value <= 1000 & (string)dtgrdProductList[11, e.RowIndex].Value != "")
@@ -269,7 +271,7 @@ namespace POS
                             return;
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         search = false;
                     }
@@ -322,7 +324,7 @@ namespace POS
                             return;
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         search = false;
                     }
@@ -445,7 +447,6 @@ namespace POS
             bool found = false;
             var response = new object();
             var json = new JObject();
-            int no = 0;
             int row = 0;
             try
             {
@@ -485,7 +486,7 @@ namespace POS
                 {
                     row = dtgrdProductList.CurrentCell.RowIndex;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     dtgrdProductList.Rows.Add();
                     row = dtgrdProductList.CurrentCell.RowIndex;
@@ -524,7 +525,7 @@ namespace POS
                     loadCart(txtId.Text, Till.TILLNO);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 dtgrdProductList[0, row].Value = "";
                 dtgrdProductList[1, row].Value = "";
@@ -567,7 +568,7 @@ namespace POS
                 if (voidRow > -1)
                 {
                     dtgrdProductList[9, voidRow].Value = false;
-                    if (dtgrdProductList[9, voidRow].Value == true)
+                    if ((bool) dtgrdProductList[9, voidRow].Value == true)
                     {
                         dtgrdProductList[9, voidRow].Value = false;
                     }
@@ -578,7 +579,7 @@ namespace POS
                 }
                 voidRow = -1;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // MsgBox(ex.Message)
             }
@@ -609,7 +610,7 @@ namespace POS
                     if ((bool)dtgrdProductList[9, i].Value == false)
                     {
                         _total = _total + (double)LCurrency.getValue(dtgrdProductList[8, i].Value.ToString());
-                        _vat = _vat + (double)(LCurrency.getValue(dtgrdProductList[5, i].Value.ToString())) * (double)LCurrency.getValue(dtgrdProductList[8, i].Value.ToString()) / (100 + (double)(LCurrency.getValue(dtgrdProductList[5, i].Value.ToString)));
+                        _vat = _vat + (double)(LCurrency.getValue(dtgrdProductList[5, i].Value.ToString())) * (double)LCurrency.getValue(dtgrdProductList[8, i].Value.ToString()) / (100 + (double)(LCurrency.getValue(dtgrdProductList[5, i].Value.ToString())));
                         double discountedPrice = (double)LCurrency.getValue(price.ToString()) * (1 - (double)discountRatio / 100d);
                         _discount = _discount + (price - discountedPrice) * qty;
 
@@ -623,7 +624,7 @@ namespace POS
                 txtTax.Text = (string) LCurrency.displayValue(_vat.ToString());
                 txtGrandTotal.Text = (string) LCurrency.displayValue(_grandTotal.ToString());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // MsgBox(ex.StackTrace)
             }
@@ -640,7 +641,7 @@ namespace POS
                 row = dtgrdProductList.CurrentRow.Index;
                 col = dtgrdProductList.CurrentCell.ColumnIndex;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 row = -1;
             }
@@ -702,7 +703,7 @@ namespace POS
                 item = "(" + dtgrdProductList[1, row].Value.ToString() + ")  " + dtgrdProductList[2, row].Value.ToString();
                 unitPrice = dtgrdProductList[4, row].Value.ToString();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 row = -1;
             }
@@ -711,7 +712,7 @@ namespace POS
 
             if (dtgrdProductList.CurrentCell.ColumnIndex == 6)
             {
-                string sn = dtgrdProductList.Item(11, dtgrdProductList.CurrentCell.RowIndex).Value;
+                string sn = (string) dtgrdProductList[11, dtgrdProductList.CurrentCell.RowIndex].Value;
                 loadCart(txtId.Text, Till.TILLNO);
 
                 // process discount
@@ -720,12 +721,12 @@ namespace POS
                 {
 
                     discountDialog = new FormDiscount();
-                    discountDialog.lblItem.Text = item;
-                    discountDialog.lblUnitPrice.Text = "Unit Price " + unitPrice;
+                    discountDialog.product = item;
+                    discountDialog.unitPrice = "Unit Price " + unitPrice;
                     discountDialog.ShowDialog();
                     if (discountDialog.DialogResult == System.Windows.Forms.DialogResult.OK)
                     {
-                        double discount = (double)discountDialog.txtDiscount.Text;
+                        double discount = (double)discountDialog.discount;
                         if ((discount) <= amount)
                         {
                             var discPercentage = (discount) / amount * 100;
@@ -807,7 +808,7 @@ namespace POS
                 if ((bool) dtgrdProductList[9, i].Value == false)
                 {
                     code[count] = dtgrdProductList[1, i].Value.ToString();
-                    descr[count] = new Product().getShortDescription(code[count]);
+                    descr[count] = dtgrdProductList[2, i].Value.ToString();
                     qty[count] =dtgrdProductList[7, i].Value.ToString();
                     price[count] = dtgrdProductList[4, i].Value.ToString();
                     tax[count] = dtgrdProductList[5, i].Value.ToString();
@@ -888,7 +889,7 @@ namespace POS
 
         private void startOSK()
         {
-            long old;
+            /*long old = 0;
             if (Environment.Is64BitOperatingSystem)
             {
                 if (Wow64DisableWow64FsRedirection(old))
@@ -897,8 +898,8 @@ namespace POS
                     Wow64EnableWow64FsRedirection(old);
                 }
             }
-            else
-                Process.Start(osk);
+            else*/
+            Process.Start(osk);
         }
 
 
@@ -982,7 +983,7 @@ namespace POS
                 response = Web.get_("carts/get_by_id_and_till_no?id=" + id + "&till_no=" + tillNo);
                 json = JObject.Parse(response.ToString());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return;
             }

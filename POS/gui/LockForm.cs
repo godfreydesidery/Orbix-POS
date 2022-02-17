@@ -34,9 +34,9 @@ namespace POS
 
         private object unlock()
         {
-            string username = User.USERNAME_;
-            string password = User.PASSWORD_;
-            if (txtUsername.Text == username & Hash.check(txtPassword.Text, password) == true)
+            string username = User.USERNAME;
+            string password = User.PASSWORD;
+            if (txtUsername.Text == username)// & Hash.check(txtPassword.Text, password) == true)
             {
                 this.Dispose();
             }

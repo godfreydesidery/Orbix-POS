@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace POS.general
 {
@@ -38,39 +41,30 @@ namespace POS.general
             invoice = _invoice;
             CRNote = _CRNote;
             mobile = _mobile;
-            return null;
         }
 
-        public static object commitPayment(string paymentId)
+        public static bool commitPayment(string paymentId)
         {
             bool commited = false;
             try
             {
-                var conn = new MySqlConnection(Database.conString);
-                conn.Open();
-                var command = new MySqlCommand();
-                command.Connection = conn;
-                command.CommandText = "INSERT INTO `payment`(`sale_id`, `cash`, `voucher`, `deposit`, `loyalty`, `cr_card`, `cap`, `invoice`, `cr_note`, `mobile`) VALUES (@sale_id,@cash,@voucher,@deposit,@loyalty,@cr_card,@cap,@invoice,@cr_note,@mobile)";
-                command.Prepare();
-                command.Parameters.AddWithValue("@sale_id", paymentId);
-                command.Parameters.AddWithValue("@cash", cash);
-                command.Parameters.AddWithValue("@voucher", voucher);
-                command.Parameters.AddWithValue("@deposit", deposit);
-                command.Parameters.AddWithValue("@loyalty", loyalty);
-                command.Parameters.AddWithValue("@cr_card", CRCard);
-                command.Parameters.AddWithValue("@cap", CAP);
-                command.Parameters.AddWithValue("@invoice", invoice);
-                command.Parameters.AddWithValue("@cr_note", CRNote);
-                command.Parameters.AddWithValue("@mobile", mobile);
-                command.ExecuteNonQuery();
-                conn.Close();
-                commited = true;
+                var response = new object();
+                var json = new JObject();
+                try
+                {
+                    response = Web.get_("credit_notes/get_crnoteno?code=");
+                    json = JObject.Parse(response.ToString());
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+                return JsonConvert.DeserializeObject<bool>(json.ToString());               
             }
             catch (Exception ex)
             {
-                Interaction.MsgBox(ex.Message);
+                MessageBox.Show(ex.Message);
             }
-
             return commited;
         }
     }

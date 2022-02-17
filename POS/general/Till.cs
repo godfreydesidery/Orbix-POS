@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,25 +35,23 @@ namespace POS.general
         // Till float balance
         public double floatBalance { get; set; }
 
-        public static object tillTotalRegister(string tillNo, double cash, double voucher, double cheque, double deposit, double loyalty, double CRCard, double CAP, double invoice, double CRNote, double mobile)
+        public static bool tillTotalRegister(string tillNo, double cash, double voucher, double cheque, double deposit, double loyalty, double CRCard, double CAP, double invoice, double CRNote, double mobile)
         {
-            bool commited = false;
-            var conn = new MySqlConnection(Database.conString);
-            string query = "";
-            var command = new MySqlCommand();
-            conn.Open();
-            command.Connection = conn;
-            query = "INSERT IGNORE INTO `till_total`(`till_no`) VALUES ('" + Till.TILLNO + "')";
-            command.CommandText = query;
-            command.Prepare();
-            command.ExecuteNonQuery();
-            query = "UPDATE `till_total` SET `cash`=`cash`+'" + cash.ToString() + "',`voucher`=`voucher`+'" + voucher.ToString() + "',`cheque`=`cheque`+' " + cheque.ToString() + "',`deposit`=`deposit`+'" + deposit.ToString() + "',`loyalty`=`loyalty`+'" + loyalty.ToString() + "',`cr_card`=`cr_card`+'" + CRCard.ToString() + "',`cap`=`cap`+'" + CAP.ToString() + "',`invoice`=`invoice`+'" + invoice.ToString() + "',`cr_note`=`cr_note`+'" + CRNote.ToString() + "',`mobile`=`mobile`+'" + mobile.ToString() + "' WHERE `till_no`='" + tillNo.ToString() + "'";
-            command.CommandText = query;
-            command.Prepare();
-            command.ExecuteNonQuery();
-            conn.Close();
-            commited = true;
-            return commited;
+
+            var response = new object();
+            var json = new JObject();
+            try
+            {
+                response = Web.get_("credit_notes/get_crnoteno?code=");
+                json = JObject.Parse(response.ToString());
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return JsonConvert.DeserializeObject<bool>(json.ToString());
+
+            
         }
     }
 }

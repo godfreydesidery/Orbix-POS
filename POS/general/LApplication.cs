@@ -13,8 +13,10 @@ namespace POS.general
 {
     class LApplication
     {
+        
         private static object getRemoteXMLFile(string path)
         {
+            
             var document = new System.Xml.XmlDocument();
             // Create a WebRequest to the remote site
             System.Net.HttpWebRequest request = (System.Net.HttpWebRequest) System.Net.WebRequest.Create(path);
@@ -60,10 +62,10 @@ namespace POS.general
 
         //public static string localAppDataDir = global::My.Computer.FileSystem.SpecialDirectories.MyDocuments + global::My.Application.Info.Title + "." + global::My.Application.Info.Version.Major.ToString + "." + global::My.Application.Info.Version.Minor.ToString;
         // Public Shared localAppDataDir As String = "C:\" + My.Application.Info.Title + "." + My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString
-        private string databaseAddress = "";
-        private string databasePassword = "";
-        private string databaseUserID = "";
-        private string databaseName = "";
+        private string serverAddress = "";
+        //private string databasePassword = "";
+        //private string databaseUserID = "";
+        //private string databaseName = "";
 
         public object loadSettings()
         {
@@ -72,7 +74,7 @@ namespace POS.general
             {
                 computerName = System.Environment.MachineName;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -100,9 +102,9 @@ namespace POS.general
                     document.Dispose();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                DialogResult res = MessageBox.Show("Could not load settings. Settings configuretions not found. Configure System?", "Settings not found", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult res = MessageBox.Show("Could not load settings. Settings configurations not found. Configure System?", "Settings not found", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if(res == DialogResult.Yes)
                 {
                     FormSetUp frmSetup = new FormSetUp();
@@ -118,7 +120,7 @@ namespace POS.general
             {
                 settings = (System.Xml.XmlDocument)getRemoteXMLFile("http://" + address + "/rms/settings/setting_info.xml");
             }
-            catch (System.Net.WebException ex)
+            catch (System.Net.WebException)
             {
                 DialogResult res = MessageBox.Show("Could not load settings. Settings configuretions not found. Configure System?", "Settings not found", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
@@ -130,7 +132,7 @@ namespace POS.general
                 Application.Exit();
                 Environment.Exit(0);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 DialogResult res = MessageBox.Show("Could not load settings. Settings configuretions not found. Configure System?", "Settings not found", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
@@ -147,44 +149,27 @@ namespace POS.general
 
             try
             {
-                databaseName = settings.SelectSingleNode("Settings/Database/Name").InnerText.ToString();
-                databaseAddress = settings.SelectSingleNode("Settings/Database/Address").InnerText.ToString();
-                databaseUserID = settings.SelectSingleNode("Settings/Database/UserID").InnerText.ToString();
-                databasePassword = settings.SelectSingleNode("Settings/Database/Password").InnerText.ToString();
+                serverAddress = address;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
 
+            Env.SERVER_ADDRESS = serverAddress;
+
             // load database
 
-            string connectionString = "";
-            connectionString = "server=" + databaseAddress + ";user id=" + databaseUserID + ";password=" + databasePassword + ";Database=" + databaseName + ";pooling=false";
-            Database.conString = connectionString;
-            var con = new MySqlConnection(Database.conString);
-            bool isLoaded = false;
-            try
-            {
-                isLoaded = true;
-                con.Open();
-                con.Close();
-            }
-            catch (Exception ex)
-            {
-                isLoaded = false;
-                MessageBox.Show("Could not connect to database: " + ex.Message.ToString());
-            }
-
+            
             try
             {
                 var response = new object();
                 var json = new JObject();
                 response = Web.get_("tills/get_by_computer_name?computer_name=" + System.Environment.MachineName);
                 json = JObject.Parse(response.ToString());
-                Till.TILLNO = json.SelectToken("no");
+                Till.TILLNO =(string) json.SelectToken("no");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Could not load System. Application will close", "Error: Load failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
@@ -197,7 +182,7 @@ namespace POS.general
 
 
             // load till information
-            try
+            /*try
             {
                 string compName = System.Environment.MachineName;
                 string query = "SELECT till.till_no,till.computer_name FROM `till` WHERE till.computer_name=@computerName";
@@ -288,27 +273,27 @@ namespace POS.general
             catch (Exception ex)
             {
                 // LError.databaseConnection()
-            }
+            }*/
 
             // load day information
             try
             {
-                Day.systemDate = Day.getCurrentDay.ToString("yyyy-MM-dd"); // settings.SelectSingleNode("Settings/Day/Date").InnerText
+                Day.bussinessDate = Day.CURRENT_DATE; // settings.SelectSingleNode("Settings/Day/Date").InnerText
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Interaction.MsgBox("Could not load Day Information. Day not set.", (MsgBoxStyle)((int)Constants.vbExclamation + (int)Constants.vbOKOnly), "Error: Day error");
+                MessageBox.Show("Could not load Day Information. Day not set.", "Error: Day error");
                 Application.Exit();
                 loaded = false;
             }
 
             loaded = true;
-            if (Company.loadCompanyDetails == true)
+            if (Company.loadCompanyDetails() == true)
             {
             }
             else
             {
-                Interaction.MsgBox("Could not load company information", (MsgBoxStyle)((int)Constants.vbOKOnly + (int)Constants.vbCritical), "Error: Loading company information");
+                MessageBox.Show("Could not load company information", "Error: Loading company information");
                 loaded = false;
             }
 

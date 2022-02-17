@@ -12,6 +12,9 @@ namespace POS.gui
 {
     public partial class FormDiscount : Form
     {
+        public string product = "";
+        public string unitPrice = "";
+        public double discount = 0;
         public FormDiscount()
         {
             InitializeComponent();
@@ -28,6 +31,13 @@ namespace POS.gui
         private void FormDiscount_Load(object sender, EventArgs e)
         {
             txtDiscount.Text = "0";
+            lblProduct.Text = product;
+            lblUnitPrice.Text = unitPrice;
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            discount = Convert.ToDouble(txtDiscount.Text);
         }
     }
 }

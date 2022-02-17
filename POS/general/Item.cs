@@ -1,9 +1,12 @@
-﻿using POS.general;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using POS.general;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace POS.general
 {
@@ -12,58 +15,57 @@ namespace POS.general
         // Install-Package Microsoft.VisualBasic
 
         
-        public string getShortDescription(string itemCode)
+        public string getShortDescription(string code)
         {
             string descr = "";
-            string query = "SELECT`item_description` FROM `items` WHERE `item_code`='" + itemCode + "'";
-            var command = new MySqlCommand();
-            var conn = new MySqlConnection(Database.conString);
+
+            var list = new List<string>();
             try
             {
-                conn.Open();
-                command.CommandText = query;
-                command.Connection = conn;
-                command.CommandType = CommandType.Text;
-                MySqlDataReader reader = command.ExecuteReader;
-                while (reader.Read)
+                var response = new object();
+                var json = new JObject();
+                try
                 {
-                    descr = reader.GetString("item_description");
-                    break;
+                    response = Web.get_("products/get_shortdescr?code=" + code);
+                    json = JObject.Parse(response.ToString());
                 }
+                catch (Exception)
+                {
+                    return null;
+                }
+                descr = JsonConvert.DeserializeObject<string>(json.ToString());
             }
             catch (Exception ex)
             {
-                LError.databaseConnection();
+                MessageBox.Show(ex.StackTrace.ToString());
             }
-
-            return descr;
+            return descr.ToString();
         }
 
-        public static string getCostPrice(string itemCode)
+        public static string getCostPrice(string code)
         {
             double price = 0d;
-            string query = "SELECT`unit_cost_price` FROM `items` WHERE `item_code`='" + itemCode + "'";
-            var command = new MySqlCommand();
-            var conn = new MySqlConnection(Database.conString);
+            var list = new List<string>();
             try
             {
-                conn.Open();
-                command.CommandText = query;
-                command.Connection = conn;
-                command.CommandType = CommandType.Text;
-                MySqlDataReader reader = command.ExecuteReader;
-                while (reader.Read)
+                var response = new object();
+                var json = new JObject();
+                try
                 {
-                    price = reader.GetString("unit_cost_price");
-                    break;
+                    response = Web.get_("products/get_cost_price?code="+code);
+                    json = JObject.Parse(response.ToString());
                 }
+                catch (Exception)
+                {
+                    return null;
+                }
+                price = JsonConvert.DeserializeObject<double>(json.ToString());
+
             }
             catch (Exception ex)
             {
-                Interaction.MsgBox(ex.Message);
-                Error.databaseConnection();
+                MessageBox.Show(ex.StackTrace.ToString());
             }
-
             return price.ToString();
         }
 
@@ -72,37 +74,23 @@ namespace POS.general
             var list = new List<string>();
             try
             {
-                // Dim query As String = "SELECT `items`.`item_code`,`items`.`item_long_description`, `inventorys`.`item_code`FROM `items`,`inventorys` WHERE  `items`.`item_long_description` LIKE CONCAT('%','" + descr + "','%') LIMIT 1,500"
-                string query = "SELECT `item_long_description` FROM `items`";
-                var command = new MySqlCommand();
-                var conn = new MySqlConnection(Database.conString);
+                var response = new object();
+                var json = new JObject();
                 try
                 {
-                    list.Clear();
-                    conn.Open();
-                    command.CommandText = query;
-                    command.Connection = conn;
-                    command.CommandType = CommandType.Text;
-                    MySqlDataReader itemreader = command.ExecuteReader();
-                    if (itemreader.HasRows == true)
-                    {
-                        while (itemreader.Read)
-                            list.Add(itemreader("item_long_description").ToString);
-                    }
-                    else
-                    {
-                        return list;
-                    }
+                    response = Web.get_("products/get_product_descriptions");
+                    json = JObject.Parse(response.ToString());
                 }
-                catch (Devart.Data.MySql.MySqlException ex)
+                catch (Exception)
                 {
-                    Interaction.MsgBox(ex.Message);
-                    return list;
+                    return null;
                 }
+                list = JsonConvert.DeserializeObject<List<string>>(json.ToString());
+                
             }
             catch (Exception ex)
             {
-                Interaction.MsgBox(ex.StackTrace.ToString());
+                MessageBox.Show(ex.StackTrace.ToString());
             }
 
             return list;
@@ -113,39 +101,23 @@ namespace POS.general
             var list = new List<string>();
             try
             {
-                // Dim query As String = "SELECT `items`.`item_code`,`items`.`item_long_description`, `inventorys`.`item_code`FROM `items`,`inventorys` WHERE  `items`.`item_long_description` LIKE CONCAT('%','" + descr + "','%') LIMIT 1,500"
-                string query = "SELECT `item_long_description` FROM `items`";
-                var command = new MySqlCommand();
-                var conn = new MySqlConnection(Database.conString);
+                var response = new object();
+                var json = new JObject();
                 try
                 {
-                    list.Clear();
-                    conn.Open();
-                    command.CommandText = query;
-                    command.Connection = conn;
-                    command.CommandType = CommandType.Text;
-                    MySqlDataReader itemreader = command.ExecuteReader();
-                    if (itemreader.HasRows == true)
-                    {
-                        while (itemreader.Read)
-                            list.Add(itemreader("item_long_description").ToString);
-                    }
-                    else
-                    {
-                        return list;
-                        return default;
-                    }
+                    response = Web.get_("products/get_product_descriptions");
+                    json = JObject.Parse(response.ToString());
                 }
-                catch (Devart.Data.MySql.MySqlException ex)
+                catch (Exception)
                 {
-                    Interaction.MsgBox(ex.Message);
-                    return list;
-                    return default;
+                    return null;
                 }
+                list = JsonConvert.DeserializeObject<List<string>>(json.ToString());
+
             }
             catch (Exception ex)
             {
-                Interaction.MsgBox(ex.StackTrace.ToString());
+                MessageBox.Show(ex.StackTrace.ToString());
             }
 
             return list;

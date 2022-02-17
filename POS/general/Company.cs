@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -32,38 +34,36 @@ namespace POS.general
             bool loaded = false;
             try
             {
-                var conn = new SqlConnection(Database.conString);
-                var command = new MySqlCommand();
-                // create bar code
-                string codeQuery = "SELECT `company_name`, `contact_name`, `tin`, `vrn`, `bank_acc_name`, `bank_acc_address`, `bank_post_code`, `bank_name`, `bank_acc_no`, `address`, `post_code`, `physical_address`, `telephone`, `mobile`, `email`, `fax` FROM `company`";
-                conn.Open();
-                command.CommandText = codeQuery;
-                command.Connection = conn;
-                command.CommandType = CommandType.Text;
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read)
+
+                var response = new object();
+                var json = new JObject();
+                try
                 {
-                    NAME = reader.GetString("company_name");
-                    CONTACT_NAME = reader.GetString("contact_name");
-                    TIN = reader.GetString("tin");
-                    VRN = reader.GetString("vrn");
-                    BANK_ACC_NAME = reader.GetString("bank_acc_name");
-                    BANK_ACC_ADDRESS = reader.GetString("bank_acc_address");
-                    BANK_POST_CODE = reader.GetString("bank_post_code");
-                    BANK_NAME = reader.GetString("bank_name");
-                    BANK_ACC_NO = reader.GetString("bank_acc_no");
-                    ADDRESS = reader.GetString("address");
-                    POST_CODE = reader.GetString("post_code");
-                    PHYSICAL_ADDRESS = reader.GetString("physical_address");
-                    TELEPHONE = reader.GetString("telephone");
-                    MOBILE = reader.GetString("mobile");
-                    EMAIL = reader.GetString("email");
-                    FAX = reader.GetString("fax");
-                    loaded = true;
-                    break;
+                    response = Web.get_("company/get_etails");
+                    json = JObject.Parse(response.ToString());
+                }
+                catch (Exception)
+                {
+                    return false;
                 }
 
-                conn.Close();
+                NAME = json.SelectToken("name");
+                CONTACT_NAME = json.SelectToken("name");
+                TIN = json.SelectToken("name");
+                VRN = json.SelectToken("name");
+                BANK_ACC_NAME = json.SelectToken("name");
+                BANK_ACC_ADDRESS = json.SelectToken("name");
+                BANK_POST_CODE = json.SelectToken("name");
+                BANK_NAME = json.SelectToken("name");
+                BANK_ACC_NO = json.SelectToken("name");
+                ADDRESS = json.SelectToken("name");
+                POST_CODE = json.SelectToken("name");
+                PHYSICAL_ADDRESS = json.SelectToken("name");
+                TELEPHONE = json.SelectToken("name");
+                MOBILE = json.SelectToken("name");
+                EMAIL = json.SelectToken("name");
+                FAX = json.SelectToken("name");
+                loaded = true;               
             }
             catch (Exception ex)
             {

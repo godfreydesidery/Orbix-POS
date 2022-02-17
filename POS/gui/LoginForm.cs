@@ -71,7 +71,7 @@ namespace POS
                 var app = new LApplication();
                 app.loadSettings();
             }
-            catch (global::System.Exception ex)
+            catch (global::System.Exception)
             {
                 MessageBox.Show("Failed to load application",  "Error: Application", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();

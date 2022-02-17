@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Net;
 using System.IO;
 using System.Windows.Forms;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace POS.general
 {
@@ -34,12 +29,12 @@ namespace POS.general
                 Object responseFromServer = requestuestReader.ReadToEnd();
                 return responseFromServer;
             }
-            catch (System.Net.WebException e)
+            catch (System.Net.WebException)
             {
                 //MessageBox.Show(e.ToString(), "Error");
                 return null;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show(e.ToString(), "Error");
                 return null;
@@ -165,7 +160,7 @@ namespace POS.general
                 streamReader.Close();
                 return responseFromServer;
             }
-            catch(System.Net.WebException e)
+            catch(System.Net.WebException)
             {
                 //MessageBox()
                 return null;

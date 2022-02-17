@@ -43,7 +43,7 @@ namespace POS.general
                     i = i + 1;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -142,8 +142,7 @@ namespace POS.general
             for (i_key = 1; i_key <= loopTo; i_key++)
             {
                 // START THE CLOCK    - LAITH - 27/07/2005 18:01:18 -
-                VBMath.Randomize();
-                Random1 = VBMath.Rnd();
+                Random1 = new Random().Next();
                 arrIndex = -1;
                 // IF THE VALUE IS AN EVEN NUMBER WE GENERATE A LETTER,
                 // OTHERWISE WE GENERATE A NUMBER  
@@ -151,17 +150,17 @@ namespace POS.general
                 // THE NUMBER '111' WAS RANDOMLY CHOSEN. ANY NUMBER
                 // WILL DO, WE JUST NEED TO BRING THE VALUE
                 // ABOVE '0'     - LAITH - 27/07/2005 18:40:48 -
-                if (Conversions.ToInteger(Random1 * 111f) % 2 == 0)
+                if (Convert.ToInt16(Random1 * 111f) % 2 == 0)
                 {
                     // GENERATE A RANDOM INDEX IN THE LETTERS
                     // CHARACTER ARRAY   - LAITH - 27/07/2005 18:47:44 -
                     while (arrIndex < 0)
                         arrIndex = Convert.ToInt16(LettersArray.GetUpperBound(0) * Random1);
-                    RandomLetter = Conversions.ToString(LettersArray[arrIndex]);
+                    RandomLetter = Convert.ToString(LettersArray[arrIndex]);
                     // CREATE ANOTHER RANDOM NUMBER. IF IT IS ODD,
                     // WE CAPITALIZE THE LETTER
                     // - LAITH - 27/07/2005 18:55:59 -
-                    if (Conversions.ToInteger(arrIndex * Random1 * 99f) % 2 != 0)
+                    if (Convert.ToInt16(arrIndex * Random1 * 99f) % 2 != 0)
                     {
                         RandomLetter = LettersArray[arrIndex].ToString();
                         RandomLetter = RandomLetter.ToUpper();

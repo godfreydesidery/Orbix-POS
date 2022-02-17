@@ -1,4 +1,5 @@
-﻿using POS.general;
+﻿using Newtonsoft.Json.Linq;
+using POS.general;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,50 +36,19 @@ namespace POS
             double newFloat = 0d;
             string tillno = Till.TILLNO;
             string currentDate = general.Day.bussinessDate;
-            var command = new MySqlCommand();
-            var conn = new MySqlConnection(Database.conString);
-            MySqlDataReader reader;
-            string query = "";
 
+
+            var response = new object();
+            var json = new JObject();
             try
             {
-                conn.Open();
-                query = "SELECT `sale`.`date`,`sale`.`id`,`sale`.`till_no`,`payment`.`sale_id`,`payment`.`cash`,`payment`.`voucher`,`payment`.`cr_card`,`payment`.`cr_note`,`payment`.`cheque` FROM `sale`,`payment` WHERE `sale`.`id`=`payment`.`sale_id` AND `sale`.`till_no`='" + Till.TILLNO + "' AND `sale`.`date`='" + currentDate + "'";
-                Interaction.Command().Connection = conn;
-                Interaction.Command().CommandType = CommandType.Text;
-                Interaction.Command().CommandText = query;
-                reader = Interaction.Command().ExecuteReader();
-                while (reader.Read)
-                {
-                    cash = cash + Val(reader.GetString("cash"));
-                    giftVouchers = giftVouchers + Val(reader.GetString("voucher"));
-                    CRCards = CRCards + Val(reader.GetString("cr_card"));
-                    CRNotes = CRNotes + Val(reader.GetString("cr_note"));
-                    cheque = cheque + Val(reader.GetString("cheque"));
-                }
-
-                query = "SELECT `amount` FROM `float_balance` WHERE `till_no`='" + Till.TILLNO + "'";
-                Interaction.Command().CommandText = query;
-                reader = Interaction.Command().ExecuteReader();
-                while (reader.Read)
-                {
-                    newFloat = Val(reader.GetString("amount"));
-                    break;
-                }
-
-                conn.Close();
-                txtCash.Text = LCurrency.displayValue(cash.ToString());
-                txtCheques.Text = LCurrency.displayValue(cheque.ToString());
-                txtGiftVouchers.Text = LCurrency.displayValue(giftVouchers.ToString());
-                txtCRCards.Text = LCurrency.displayValue(CRCards.ToString());
-                txtCRNotes.Text = LCurrency.displayValue(CRNotes.ToString());
-                txtNewFloat.Text = LCurrency.displayValue(newFloat.ToString());
+                response = Web.get_("credit_notes/get_crnoteno?code=");
+                json = JObject.Parse(response.ToString());
             }
-            catch (Devart.Data.MySql.MySqlException ex)
+            catch (Exception)
             {
-                LError.databaseConnection();
                 return;
-            }
+            }           
         }
     }
 }

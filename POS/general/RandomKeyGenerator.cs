@@ -81,8 +81,7 @@ namespace POS.general
             for (i_key = 1; i_key <= loopTo; i_key++)
             {
                 // START THE CLOCK    - LAITH - 27/07/2005 18:01:18 -
-                VBMath.Randomize();
-                Random1 = VBMath.Rnd();
+                Random1 = (new Random()).Next();
                 arrIndex = -1;
                 // IF THE VALUE IS AN EVEN NUMBER WE GENERATE A LETTER,
                 // OTHERWISE WE GENERATE A NUMBER  

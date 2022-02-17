@@ -32,12 +32,14 @@
             this.txtDiscount = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.lblProduct = new System.Windows.Forms.Label();
+            this.lblUnitPrice = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 29);
+            this.label1.Location = new System.Drawing.Point(12, 106);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(176, 20);
             this.label1.TabIndex = 0;
@@ -45,7 +47,7 @@
             // 
             // txtDiscount
             // 
-            this.txtDiscount.Location = new System.Drawing.Point(16, 83);
+            this.txtDiscount.Location = new System.Drawing.Point(16, 140);
             this.txtDiscount.Name = "txtDiscount";
             this.txtDiscount.Size = new System.Drawing.Size(271, 26);
             this.txtDiscount.TabIndex = 1;
@@ -53,27 +55,49 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(16, 125);
+            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnOK.Location = new System.Drawing.Point(16, 186);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(81, 40);
             this.btnOK.TabIndex = 2;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(206, 125);
+            this.btnCancel.Location = new System.Drawing.Point(206, 186);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(81, 40);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
+            // lblProduct
+            // 
+            this.lblProduct.AutoSize = true;
+            this.lblProduct.Location = new System.Drawing.Point(12, 24);
+            this.lblProduct.Name = "lblProduct";
+            this.lblProduct.Size = new System.Drawing.Size(51, 20);
+            this.lblProduct.TabIndex = 4;
+            this.lblProduct.Text = "label2";
+            // 
+            // lblUnitPrice
+            // 
+            this.lblUnitPrice.AutoSize = true;
+            this.lblUnitPrice.Location = new System.Drawing.Point(12, 65);
+            this.lblUnitPrice.Name = "lblUnitPrice";
+            this.lblUnitPrice.Size = new System.Drawing.Size(51, 20);
+            this.lblUnitPrice.TabIndex = 5;
+            this.lblUnitPrice.Text = "label2";
+            // 
             // FormDiscount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(296, 177);
+            this.ClientSize = new System.Drawing.Size(307, 238);
+            this.Controls.Add(this.lblUnitPrice);
+            this.Controls.Add(this.lblProduct);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtDiscount);
@@ -92,5 +116,7 @@
         private System.Windows.Forms.TextBox txtDiscount;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Label lblProduct;
+        private System.Windows.Forms.Label lblUnitPrice;
     }
 }

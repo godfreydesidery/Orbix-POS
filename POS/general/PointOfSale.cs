@@ -134,7 +134,7 @@ namespace POS.general
                 {
                     prn.OpenPrint(posPrinterLogicName);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
 
@@ -239,11 +239,11 @@ namespace POS.general
                     Print(strOutputData);
                     prn.ClosePrint();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Operation canceled. Could not print POS receipt");
                 return continue_;

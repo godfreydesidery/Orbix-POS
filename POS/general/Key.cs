@@ -30,7 +30,7 @@ namespace POS.general
             {
                 System.Windows.Forms.SendKeys.Send("{up}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -43,7 +43,7 @@ namespace POS.general
             {
                 SendKeys.Send("{down}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             return null;
@@ -55,7 +55,7 @@ namespace POS.general
             {
                 SendKeys.Send("{left}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -68,7 +68,7 @@ namespace POS.general
             {
                 SendKeys.Send("{right}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 

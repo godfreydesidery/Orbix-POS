@@ -45,12 +45,12 @@ namespace POS.general
                 response = Web.login(username, password);         
                 json = JObject.Parse(response.ToString());
             }
-            catch(NullReferenceException e)
+            catch(NullReferenceException)
             {
                 MessageBox.Show("Could not log in, invalid username and password");
                 return 2;
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 MessageBox.Show("Could not log in");
                 return 2;
@@ -90,15 +90,39 @@ namespace POS.general
                     day = JsonConvert.DeserializeObject<Day>(jobj.ToString());
                     Day.CURRENT_DATE = Day.bussinessDate;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     User.accessToken = "";
                     MessageBox.Show("Could not log in");
                     return 2;
                 }
-
             }
             return auth;
         }
-    }   
+
+        public static bool authorize(string priveledge)
+        {
+            bool response = false;
+            try
+            {
+                response =(bool) Web.get_("authorize?user_id=" + User.USER_ID + "&priveledge=" + priveledge);
+                // response = Web.get_("users/authorize/user_id=" + User.CURRENT_USER_ID + "&priveledge=" + priveledge)
+                if (response == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                response = false;
+            }
+
+            return false;
+        }
+
+    }
 }

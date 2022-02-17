@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,21 +27,19 @@ namespace POS.general
                 var date_ = DateTime.Parse("0001-01-01");
                 try
                 {
-                    var conn = new MySqlConnection(Database.conString);
-                    var command = new MySqlCommand();
-                    string codeQuery = "SELECT `day_no`, `date`, `start_at`, `end_at`, `open_closed` FROM `day_log` ORDER BY `day_no` DESC LIMIT 1";
-                    conn.Open();
-                    command.CommandText = codeQuery;
-                    command.Connection = conn;
-                    command.CommandType = CommandType.Text;
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read)
-                    {
-                        date_ = reader.GetDateTime("date");
-                        break;
-                    }
 
-                    conn.Close();
+                    var response = new object();
+                    var json = new JObject();
+                    try
+                    {
+                        response = Web.get_("days/get_current_day");
+                        json = JObject.Parse(response.ToString());
+                    }
+                    catch (Exception)
+                    {
+                        return date_;
+                    }
+                    date_ = JsonConvert.DeserializeObject<DateTime>(json.ToString());                   
                 }
                 catch (Exception ex)
                 {

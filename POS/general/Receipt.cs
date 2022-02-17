@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,22 +44,19 @@ namespace POS.general
             // to provide a starting point
             try
             {
-                var conn = new MySqlConnection(Database.conString);
-                var command = new MySqlCommand();
-                string query = "";
-                query = "SELECT  MAX(`receipt_no`)AS `receipt_no` FROM `receipt` WHERE `till_no`='" + tillNo + "' AND `date`='" + date_ + "'";
-                conn.Open();
-                command.CommandText = query;
-                command.Connection = conn;
-                command.CommandType = CommandType.Text;
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read)
-                {
-                    number = Val(reader.GetString("receipt_no")) + 1;
-                    break;
-                }
 
-                conn.Close();
+                var response = new object();
+                var json = new JObject();
+                try
+                {
+                    response = Web.get_("credit_notes/get_crnoteno?code=");
+                    json = JObject.Parse(response.ToString());
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
+                return JsonConvert.DeserializeObject<int>(json.ToString());
             }
             catch (Exception ex)
             {

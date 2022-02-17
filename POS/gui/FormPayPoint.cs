@@ -238,7 +238,7 @@ namespace POS
                     SendKeys.Send(key);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 

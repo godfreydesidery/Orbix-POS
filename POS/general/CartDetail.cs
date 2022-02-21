@@ -18,8 +18,9 @@ namespace POS.general
         public double costPriceVatExcl { get; set; }
         public double sellingPriceVatIncl { get; set; }
         public double sellingPriceVatExcl { get; set; }
-        public double discountRatio { get; set; }
-        public int voided { get; set; }
+        public double discount { get; set; }
+        public double amount { get; set; }
+        public bool voided { get; set; }
         public Cart cart { get; set; } = new Cart();
     }
 }

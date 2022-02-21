@@ -10,7 +10,7 @@ namespace POS.general
     class Product
     {       
         public string id { get; set; }
-        public string primaryBarcode { get; set; }
+        public string primary { get; set; }
         public string code { get; set; }
         public string description { get; set; }
         public string shortDescription { get; set; }
@@ -24,15 +24,15 @@ namespace POS.general
         public double sellingPriceVatExcl { get; set; }
         public double profitMargin { get; set; }
         public double vat { get; set; }
-        public double discountRatio { get; set; }
+        public double discount { get; set; }
         public double stock { get; set; }
-        public double minimumStock { get; set; }
-        public double maximumStock { get; set; }
+        public double minimumInventory { get; set; }
+        public double maximumInventory { get; set; }
         public double defaultReorderLevel { get; set; }
         public double defaultReorderQty { get; set; }
         public string status { get; set; }
-        public int sellable { get; set; }
-        public int returnable { get; set; }
+        public bool sellable { get; set; }
+        public bool returnable { get; set; }
 
         public List<string> getDescriptions()
         {
@@ -42,7 +42,7 @@ namespace POS.general
             {
                 var response = new object();
                 var json = new Newtonsoft.Json.Linq.JObject();
-                response = Web.get_("products/descriptions");
+                response = Web.get_("products/get_descriptions");
                 list = JsonConvert.DeserializeObject<List<string>>(response.ToString());
                 return list;
             }

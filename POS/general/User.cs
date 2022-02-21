@@ -47,24 +47,24 @@ namespace POS.general
             }
             catch(NullReferenceException)
             {
-                MessageBox.Show("Could not log in, invalid username and password");
+                MessageBox.Show("Could not log in, invalid username and password", "Error: Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 2;
             }
             catch(Exception)
             {
-                MessageBox.Show("Could not log in");
+                MessageBox.Show("Could not log in", "Error: Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 2;
             }
             User user = JsonConvert.DeserializeObject<User>(json.ToString());
             if(user.access_token == null)
             {
                 User.accessToken = "";
-                MessageBox.Show("Could not log in, invalid username and password");
+                MessageBox.Show("Could not log in, invalid username and password", "Error: Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 auth = 1;
             }else if(user.access_token == "")
             {
                 User.accessToken = "";
-                MessageBox.Show("Could not log in, invalid username and password");
+                MessageBox.Show("Could not log in, invalid username and password", "Error: Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 auth = 1;
             }
             else
@@ -77,18 +77,11 @@ namespace POS.general
                 JObject jobj = new JObject();
                 try
                 {
-
                     var user_ = new JObject();                  
                     res = Web.get_("users/load_user?username="+username);
                     jobj = JObject.Parse(res.ToString());
                     user = JsonConvert.DeserializeObject<User>(jobj.ToString());
                     User.ALIAS = user.alias;
-
-                    var day = new Day();
-                    res = Web.get_("days/get_bussiness_date");
-                    jobj = JObject.Parse(res.ToString());
-                    day = JsonConvert.DeserializeObject<Day>(jobj.ToString());
-                    Day.CURRENT_DATE = Day.bussinessDate;
                 }
                 catch (Exception)
                 {
@@ -106,7 +99,6 @@ namespace POS.general
             try
             {
                 response =(bool) Web.get_("authorize?user_id=" + User.USER_ID + "&priveledge=" + priveledge);
-                // response = Web.get_("users/authorize/user_id=" + User.CURRENT_USER_ID + "&priveledge=" + priveledge)
                 if (response == true)
                 {
                     return true;
@@ -120,9 +112,7 @@ namespace POS.general
             {
                 response = false;
             }
-
             return false;
         }
-
     }
 }

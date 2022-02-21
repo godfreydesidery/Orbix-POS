@@ -17,7 +17,7 @@ namespace POS.general
         public string no { get; set; }
         public string name { get; set; }
         public string computerName { get; set; }
-        public int active { get; set; }
+        public bool active { get; set; }
 
         // Till postiotion
         public double cash { get; set; }

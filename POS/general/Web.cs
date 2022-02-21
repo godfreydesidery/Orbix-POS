@@ -14,7 +14,7 @@ namespace POS.general
         {
             try
             {
-                string baseUrl = "http://192.168.43.40:8080";
+                string baseUrl = "http://" + Env.SERVER_ADDRESS;
                 UTF8Encoding encoding = new UTF8Encoding();
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(baseUrl + "/api/login?username="+username+"&password="+password);
                 request.Method = "POST";
@@ -41,14 +41,14 @@ namespace POS.general
             }
         }
 
-        public static Object post(object data, string url)
+        public static object post(object data, string url)
         {
             try
             {         
-                string baseUrl = "http://192.168.43.40:8080";
+                string baseUrl ="http://"+ Env.SERVER_ADDRESS;
                 UTF8Encoding encoding = new UTF8Encoding();
                 Byte[] byteData = encoding.GetBytes(JsonConvert.SerializeObject(data, Formatting.Indented));
-                HttpWebRequest postReq = (HttpWebRequest)WebRequest.Create(baseUrl + "/" + url);
+                HttpWebRequest postReq = (HttpWebRequest)WebRequest.Create(baseUrl + "/api/" + url);
                 postReq.Method = "POST";
                 postReq.KeepAlive = true;
                 postReq.ContentType = "application/json";
@@ -79,10 +79,10 @@ namespace POS.general
         {
             try
             {
-                string baseUrl = "http://127.0.0.1:8080";
+                string baseUrl = "http://" + Env.SERVER_ADDRESS;
                 UTF8Encoding encoding = new UTF8Encoding();
                 Byte[] byteData = encoding.GetBytes(JsonConvert.SerializeObject(data, Formatting.Indented));
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(baseUrl + "/" + url);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(baseUrl + "/api/" + url);
                 request.Method = "PATCH";
                 request.KeepAlive = true;
                 request.ContentType = "application/json";
@@ -114,9 +114,9 @@ namespace POS.general
         {
             try
             {
-                string baseUrl = "http://127.0.0.1:8080";
+                string baseUrl = "http://" + Env.SERVER_ADDRESS;
                 UTF8Encoding encoding = new UTF8Encoding();
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(baseUrl + "/" + url);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(baseUrl + "/api/" + url);
                 request.Method = "DELETE";
                 request.Referer = baseUrl;
                 request.Headers.Add("Authorization", User.accessToken); //put auth token
@@ -144,7 +144,7 @@ namespace POS.general
         {
             try
             {
-                string baseUrl = "http://127.0.0.1:8080";
+                string baseUrl = "http://" + Env.SERVER_ADDRESS;
                 //Create initial request
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(baseUrl + "/api/" + url);
                 request.Proxy = null;
@@ -176,10 +176,10 @@ namespace POS.general
         {
             try
             {
-                string baseUrl = "http://192.168.43.40:8080";
+                string baseUrl = "http://" + Env.SERVER_ADDRESS;
                 UTF8Encoding encoding = new UTF8Encoding();
                 Byte[] byteData = encoding.GetBytes(JsonConvert.SerializeObject(data, Formatting.Indented));
-                HttpWebRequest postReq = (HttpWebRequest)WebRequest.Create(baseUrl + "/" + url);
+                HttpWebRequest postReq = (HttpWebRequest)WebRequest.Create(baseUrl + "/api/" + url);
                 postReq.Method = "POST";
                 postReq.KeepAlive = true;
                 postReq.ContentType = "application/json";

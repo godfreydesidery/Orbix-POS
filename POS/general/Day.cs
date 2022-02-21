@@ -11,43 +11,42 @@ namespace POS.general
 {
     class Day
     {
-        public static string CURRENT_DATE = "";
 
         public static string bussinessDate  = "";
 
         // Install-Package Microsoft.VisualBasic
 
-        internal partial class SurroundingClass
-        {
-            public static int zNo = 0;
-            public static string systemDate = "";
+        public static int zNo = 0;
+        public static string systemDate = "";
 
-            public static DateTime getCurrentDay()
+        public static DateTime getCurrentDay()
+        {
+            var date_ = DateTime.Parse("0001-01-01");
+            try
             {
-                var date_ = DateTime.Parse("0001-01-01");
+
+                var response = new object();
+                var json = new JObject();
                 try
                 {
-
-                    var response = new object();
-                    var json = new JObject();
-                    try
-                    {
-                        response = Web.get_("days/get_current_day");
-                        json = JObject.Parse(response.ToString());
-                    }
-                    catch (Exception)
-                    {
-                        return date_;
-                    }
-                    date_ = JsonConvert.DeserializeObject<DateTime>(json.ToString());                   
+                    response = Web.get_("days/get_bussiness_date");
+                    json = JObject.Parse(response.ToString());
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("Could not load day information, Application will close", "Error: Loading day", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Application.Exit();
                 }
-
-                return date_;
+                date_ = DateTime.Parse(json.SelectToken("bussinessDate").ToString());                
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Could not load day information, Application will close", "Error: Loading day", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+
+            return date_;
         }
     }
+
 }

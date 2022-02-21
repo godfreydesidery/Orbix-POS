@@ -8,14 +8,17 @@ namespace POS.general
 {
     class LCurrency
     {
-        public static object displayValue(string value)
+        public static string displayValue(string value)
         {
+            double am = 0;
             if (string.IsNullOrEmpty(value))
             {
-                value = "0";
+                am = 0;
+            }else
+            {
+                am = Convert.ToDouble(value);
             }
-
-            return String.Format("{0:0.00}", value);
+            return @String.Format("{0:N}", am);
         }
 
         public static object getValue(string value)

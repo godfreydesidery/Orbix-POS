@@ -108,7 +108,7 @@ namespace POS
 
         private void btnTestConnection_Click(object sender, EventArgs e)
         {
-            if (ping(txtAddress.Text.ToString()) == true)
+            if (ping("http://"+txtAddress.Text.ToString()) == true)
             {
                 MessageBox.Show("Connected", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

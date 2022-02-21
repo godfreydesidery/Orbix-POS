@@ -12,11 +12,9 @@ using System.Xml;
 namespace POS.general
 {
     class LApplication
-    {
-        
+    {     
         private static object getRemoteXMLFile(string path)
-        {
-            
+        {           
             var document = new System.Xml.XmlDocument();
             // Create a WebRequest to the remote site
             System.Net.HttpWebRequest request = (System.Net.HttpWebRequest) System.Net.WebRequest.Create(path);
@@ -30,7 +28,6 @@ namespace POS.general
             // Check if the response is OK (status code 200)
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-
                 // Parse the contents from the response to a stream object
                 Stream stream = response.GetResponseStream();
                 // Create a reader for the stream object
@@ -55,19 +52,11 @@ namespace POS.general
 
                 throw new Exception("Could not retrieve document from the URL, response code: " + response.StatusCode);
             }
-
             return document;
         }
-        public static string localAppDataDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"QrbixPos";
+        public static string localAppDataDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"Orbix-POS";
 
-        //public static string localAppDataDir = global::My.Computer.FileSystem.SpecialDirectories.MyDocuments + global::My.Application.Info.Title + "." + global::My.Application.Info.Version.Major.ToString + "." + global::My.Application.Info.Version.Minor.ToString;
-        // Public Shared localAppDataDir As String = "C:\" + My.Application.Info.Title + "." + My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString
-        private string serverAddress = "";
-        //private string databasePassword = "";
-        //private string databaseUserID = "";
-        //private string databaseName = "";
-
-        public object loadSettings()
+        public Boolean loadSettings()
         {
             string computerName = "";
             try
@@ -79,13 +68,14 @@ namespace POS.general
             }
 
             bool loaded = false;
-            string address = "";
             string path = localAppDataDir + @"\localSettings.xml";
             XmlReader document;
             try
             {
+
                 if (File.Exists(path))
                 {
+
                     document = new XmlTextReader(path);
                     while (document.Read())
                     {
@@ -94,35 +84,26 @@ namespace POS.general
                         {
                             if (document.Name == "Address")
                             {
-                                address = document.ReadInnerXml().ToString();
+                                Env.SERVER_ADDRESS = document.ReadInnerXml().ToString();
                             }
                         }
                     }
-
                     document.Dispose();
+                }
+                else
+                {
+                    DialogResult res = MessageBox.Show("Could not load settings. Settings configurations not found. Configure System?", "Settings not found", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (res == DialogResult.Yes)
+                    {
+                        FormSetUp frmSetup = new FormSetUp();
+                        frmSetup.ShowDialog();
+                    }
+                    Application.Exit();
                 }
             }
             catch (Exception)
             {
                 DialogResult res = MessageBox.Show("Could not load settings. Settings configurations not found. Configure System?", "Settings not found", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if(res == DialogResult.Yes)
-                {
-                    FormSetUp frmSetup = new FormSetUp();
-                    frmSetup.ShowDialog();
-                }
-                MessageBox.Show("Could not load System. Application will close", "Error: Load failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-                Environment.Exit(0);
-            }
-
-            var settings = new System.Xml.XmlDocument();
-            try
-            {
-                settings = (System.Xml.XmlDocument)getRemoteXMLFile("http://" + address + "/rms/settings/setting_info.xml");
-            }
-            catch (System.Net.WebException)
-            {
-                DialogResult res = MessageBox.Show("Could not load settings. Settings configuretions not found. Configure System?", "Settings not found", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
                     FormSetUp frmSetup = new FormSetUp();
@@ -132,157 +113,32 @@ namespace POS.general
                 Application.Exit();
                 Environment.Exit(0);
             }
-            catch (Exception)
-            {
-                DialogResult res = MessageBox.Show("Could not load settings. Settings configuretions not found. Configure System?", "Settings not found", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (res == DialogResult.Yes)
-                {
-                    FormSetUp frmSetup = new FormSetUp();
-                    frmSetup.ShowDialog();
-                }
-                MessageBox.Show("Could not load System. Application will close", "Error: Load failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-                Environment.Exit(0);
-            }
-
-            // database infomation
-
-            try
-            {
-                serverAddress = address;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
-            Env.SERVER_ADDRESS = serverAddress;
-
-            // load database
-
-            
+            //Now load till information          
             try
             {
                 var response = new object();
                 var json = new JObject();
                 response = Web.get_("tills/get_by_computer_name?computer_name=" + System.Environment.MachineName);
                 json = JObject.Parse(response.ToString());
-                Till.TILLNO =(string) json.SelectToken("no");
+                Till.TILLNO = (string)json.SelectToken("no");
+                //PointOfSale.operatorName = reader.GetString("operator_code");
+                //PointOfSale.operatorPassword = reader.GetString("operator_password");
+                //PointOfSale.port = reader.GetString("port");
+                //PointOfSale.fiscalPrinterEnabled = reader.GetString("status");
             }
             catch (Exception)
             {
-                MessageBox.Show("Could not load System. Application will close", "Error: Load failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Could not load Till. Application will close", "Error: Loading till failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
-
-
-
-
-
-
-
-            // load till information
-            /*try
-            {
-                string compName = System.Environment.MachineName;
-                string query = "SELECT till.till_no,till.computer_name FROM `till` WHERE till.computer_name=@computerName";
-                var command = new MySqlCommand();
-                var conn = new MySqlConnection(Database.conString);
-                conn.Open();
-                command.CommandText = query;
-                command.Connection = conn;
-                command.CommandType = CommandType.Text;
-                command.Parameters.AddWithValue("@computerName", compName.ToString());
-                MySqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read)
-                    {
-                        // Till.TILLNO = reader.GetString("till_no")
-                        // Exit While
-                    }
-                }
-                else
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                // MsgBox(ex.Message)
-            }
-            // load printer informations
-            try
-            {
-                string compName = System.Environment.MachineName;
-                string query = "SELECT till.till_no,till.computer_name,fiscal_printer.operator_code,fiscal_printer.operator_password,fiscal_printer.port,fiscal_printer.status FROM `till`,`fiscal_printer` WHERE till.till_no=fiscal_printer.till_no AND till.computer_name=@computerName";
-                var command = new MySqlCommand();
-                var conn = new MySqlConnection(Database.conString);
-                conn.Open();
-                command.CommandText = query;
-                command.Connection = conn;
-                command.CommandType = CommandType.Text;
-                command.Parameters.AddWithValue("@computerName", compName.ToString());
-                MySqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read)
-                    {
-                        PointOfSale.operatorName = reader.GetString("operator_code");
-                        PointOfSale.operatorPassword = reader.GetString("operator_password");
-                        PointOfSale.port = reader.GetString("port");
-                        PointOfSale.fiscalPrinterEnabled = reader.GetString("status");
-                        break;
-                    }
-                }
-                else
-                {
-                    Interaction.MsgBox("No fiscal printer settings", (MsgBoxStyle)((int)Constants.vbExclamation + (int)Constants.vbOKOnly), "Error: Fiscal Printer");
-                }
-            }
-            catch (Exception ex)
-            {
-                // LError.databaseConnection()
-            }
-
-            try
-            {
-                string compName = System.Environment.MachineName;
-                string query = "SELECT till.till_no,till.computer_name,pos_printer.logical_name,pos_printer.status FROM `till`,`pos_printer` WHERE till.till_no=pos_printer.till_no AND till.computer_name=@computerName";
-                var command = new MySqlCommand();
-                var conn = new MySqlConnection(Database.conString);
-                conn.Open();
-                command.CommandText = query;
-                command.Connection = conn;
-                command.CommandType = CommandType.Text;
-                command.Parameters.AddWithValue("@computerName", compName.ToString());
-                MySqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read)
-                    {
-                        PointOfSale.posPrinterLogicName = reader.GetString("logical_name");
-                        PointOfSale.posPrinterEnabled = reader.GetString("status");
-                        break;
-                    }
-                }
-                else
-                {
-                    Interaction.MsgBox("No POS printer settings", (MsgBoxStyle)((int)Constants.vbExclamation + (int)Constants.vbOKOnly), "Error: POS Printer");
-                }
-            }
-            catch (Exception ex)
-            {
-                // LError.databaseConnection()
-            }*/
-
             // load day information
             try
             {
-                Day.bussinessDate = Day.CURRENT_DATE; // settings.SelectSingleNode("Settings/Day/Date").InnerText
+                Day.bussinessDate = Day.getCurrentDay().ToString("yyyy-MM-dd"); // settings.SelectSingleNode("Settings/Day/Date").InnerText
             }
             catch (Exception)
             {
-                MessageBox.Show("Could not load Day Information. Day not set.", "Error: Day error");
+                MessageBox.Show("Could not load Day Information. Day not set. Application will close", "Error: Day error");
                 Application.Exit();
                 loaded = false;
             }
@@ -290,13 +146,14 @@ namespace POS.general
             loaded = true;
             if (Company.loadCompanyDetails() == true)
             {
+                //Company loaded
             }
             else
             {
-                MessageBox.Show("Could not load company information", "Error: Loading company information");
+                MessageBox.Show("Could not load company information. Application will close", "Error: Loading company information");
                 loaded = false;
+                Application.Exit();
             }
-
             return loaded;
         }
     }

@@ -11,38 +11,15 @@ namespace POS.general
 {
     class Payment
     {
-        public static double cash;
-        public static double voucher;
-        public static double deposit;
-        public static double loyalty;
-        public static double CRCard;
-        public static double CAP;
-        public static double invoice;
-        public static double CRNote;
-        public static double mobile;
-
-        public static void setPayment(double _cash, double _voucher, double _deposit, double _loyalty, double _CRCard, double _CAP, double _invoice, double _CRNote, double _mobile)
-        {
-            cash = 0d;
-            voucher = 0d;
-            deposit = 0d;
-            loyalty = 0d;
-            CRCard = 0d;
-            CAP = 0d;
-            invoice = 0d;
-            CRNote = 0d;
-            mobile = 0d;
-            cash = _cash;
-            voucher = _voucher;
-            deposit = _deposit;
-            loyalty = _loyalty;
-            CRCard = _CRCard;
-            CAP = _CAP;
-            invoice = _invoice;
-            CRNote = _CRNote;
-            mobile = _mobile;
-        }
-
+        public double cash;
+        public double voucher;
+        public double deposit;
+        public double loyalty;
+        public double crCard;
+        public double cap;
+        public double invoice;
+        public double crNote;
+        public double mobile;       
         public static bool commitPayment(string paymentId)
         {
             bool commited = false;

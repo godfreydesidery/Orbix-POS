@@ -44,7 +44,6 @@ namespace POS
         {
             InitializeComponent();
         }
-
         private void frmMain_Load(object sender, EventArgs e)
         {
             lblAlias.Text = POS.general.Day.bussinessDate + " Welcome " + User.ALIAS;            
@@ -53,10 +52,8 @@ namespace POS
                 dtgrdProductList.Enabled = true;               
                 btnPay.Enabled = true;
             }
-
             var product = new Product();
             longList = product.getDescriptions();
-
             cart = loadCart(Till.TILLNO);
             if (cart  == null)
             {
@@ -64,14 +61,13 @@ namespace POS
             }
             displayCart(cart);           
         }
-
         private void button19_Click(object sender, EventArgs e)
         {         
             if (dtgrdProductList.RowCount > 0 & isAllVoid() == false)
             {
                 calculateValues(cart);
                 FormPayPoint frmPayPoint = new FormPayPoint();
-                FormPayPoint.total = (double) LCurrency.getValue(txtGrandTotal.Text); //String.Format("{0:0.00}", txtGrandTotal.Text);
+                FormPayPoint.total = Convert.ToDouble(LCurrency.getValue(txtGrandTotal.Text)); //String.Format("{0:0.00}", txtGrandTotal.Text);
                 frmPayPoint.ShowDialog(this);
                 if (frmPayPoint.DialogResult == System.Windows.Forms.DialogResult.Cancel)
                 {
@@ -79,7 +75,7 @@ namespace POS
                 }
                 else
                 {
-                    var receipt = new Receipt();
+                    /*var receipt = new Receipt();
                     receipt.cash = FormPayPoint.cash;
                     receipt.voucher = FormPayPoint.voucher;
                     receipt.deposit = FormPayPoint.deposit;
@@ -101,66 +97,66 @@ namespace POS
                     response = Web.post(receipt, "receipts/new");
                     var receiptToPrint = JsonConvert.DeserializeObject<Receipt>(response.ToString());
                     string tillNo = receiptToPrint.till.no;
+                    string recNo = receiptToPrint.no;
                     string date_ = general.Day.bussinessDate;
                     string receiptNo = receiptToPrint.no;
                     string TIN = Company.TIN.ToString();
-                    string VRN = Company.VRN.ToString();
-                    if (printReceipt(tillNo, receiptNo, date_, TIN, VRN, cashReceived, balance) == true)
+                    string VRN = Company.VRN.ToString();*/
+                    Receipt receipt = Receipt.CURRENT_RECEIPT;
+                    if (printReceipt(receipt, FormPayPoint.cash, Convert.ToDouble(LCurrency.getValue(FormPayPoint.balance))) == true)
                     {
+
                     }
                     else
                     {
                         MessageBox.Show("Payment canceled", "Canceled", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
-
-                    cart = loadCart(Till.TILLNO);
-                    //calculateValues();
+                    
                     allowVoid = false;
                     if (dtgrdProductList.RowCount == 1)
                     {
                         txtId.Text = "";
-                    }
+                    }                   
                 }
+                cart = loadCart(Till.TILLNO);
+                if (cart == null)
+                {
+                    cart = createCart(Till.TILLNO);
+                }
+                displayCart(cart);
             }          
         }
-
         private void button21_Click(object sender, EventArgs e)
         {
             CashPickUpForm form = new CashPickUpForm();
             form.ShowDialog();
         }
-
         private void button22_Click(object sender, EventArgs e)
         {
             FormPettyCash form = new FormPettyCash();
             form.ShowDialog();
         }
-
         private void btnFloat_Click(object sender, EventArgs e)
         {
             FloatForm form = new FloatForm();
             form.ShowDialog();
         }
-
         private void btnLock_Click(object sender, EventArgs e)
         {
             LockForm form = new LockForm();
             form.ShowDialog();
         }
-
         private void btnXReport_Click(object sender, EventArgs e)
         {
             XReportForm form = new XReportForm();
             form.ShowDialog();
         }
-
         private void btnZReport_Click(object sender, EventArgs e)
         {
             ZReportForm form = new ZReportForm();
             form.ShowDialog();
         }
-
         protected virtual object place(string key)
         {
             try
@@ -191,46 +187,52 @@ namespace POS
         }
         private void dtgrdProductList_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            double qty = 0;
-            string sn = "";
-            try
+            if(dtgrdProductList.CurrentCell.ColumnIndex == 6)
             {
-                qty = Convert.ToDouble(dtgrdProductList[6, e.RowIndex].Value);
-                sn = (string)dtgrdProductList[9, e.RowIndex].Value;
-            }
-            catch (Exception)
-            {
-
-            }
-            if (Convert.ToDouble(dtgrdProductList[6, e.RowIndex].Value) >= 0 & Convert.ToDouble( dtgrdProductList[6, e.RowIndex].Value) <= 1000 & (string)dtgrdProductList[9, e.RowIndex].Value != "")
-            {
-                if (qty > 0)
+                double qty = 0;
+                string sn = "";
+                try
                 {
-                    updateQty(qty, sn);
-                    cart = loadCart(Till.TILLNO);
+                    qty = Convert.ToDouble(dtgrdProductList[6, e.RowIndex].Value);
+                    sn = (string)dtgrdProductList[9, e.RowIndex].Value;
                 }
-                else
+                catch (Exception)
                 {
-                    updateQty(1, sn);
-                    cart = loadCart(Till.TILLNO);                   
-                }               
+
+                }
+                if (Convert.ToDouble(dtgrdProductList[6, e.RowIndex].Value) >= 0 & Convert.ToDouble( dtgrdProductList[6, e.RowIndex].Value) <= 1000 & (string)dtgrdProductList[9, e.RowIndex].Value != "")
+                {
+                    if (qty > 0)
+                    {
+                        updateQty(qty, sn);
+                    }
+                    else
+                    {
+                        updateQty(1, sn);
+                    }               
+                }
+                else if (Convert.ToDouble(dtgrdProductList[6, e.RowIndex].Value) <= 0 & (string)dtgrdProductList[1, e.RowIndex].Value == "")
+                {
+                    MessageBox.Show("Invalid quantity value. Quantity value should be between 1 and 1000", "Error: Invalid Entry", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dtgrdProductList[6, e.RowIndex].Value = 1;
+                }
+                cart = loadCart(Till.TILLNO);
+                calculateValues(cart);
             }
-            else if (Convert.ToDouble(dtgrdProductList[6, e.RowIndex].Value) <= 0 & (string)dtgrdProductList[1, e.RowIndex].Value == "")
-            {
-                MessageBox.Show("Invalid quantity value. Quantity value should be between 1 and 1000", "Error: Invalid Entry", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                dtgrdProductList[6, e.RowIndex].Value = 1;
-            }
-            calculateValues(cart);
+            
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Enter)
             {
-                dtgrdProductList.EndEdit();
-                search();
+                dtgrdProductList.EndEdit();  
+                if(dtgrdProductList.CurrentCell.ColumnIndex == 0 || dtgrdProductList.CurrentCell.ColumnIndex == 1)
+                {            
+                    search();
+                }                
                 return true;
             }
-            // Return MyBase.ProcessCmdKey(msg, keyData)
+             //return MyBase.ProcessCmdKey(msg, keyData)
             return false;
         }
         private void search()
@@ -241,8 +243,6 @@ namespace POS
                 int col = dtgrdProductList.CurrentCell.ColumnIndex;
                 if (col == 0 & row == dtgrdProductList.RowCount - 2)
                 {
-                    // search item
-                    // add item to list
                     string value = "";
                     bool search = true;
                     try
@@ -422,7 +422,6 @@ namespace POS
         {
             return search("", "", description, q);
         }
-
         private bool search(string barcode, string code, string description, double q)
         {
             bool found = false;
@@ -507,9 +506,9 @@ namespace POS
                     displayCart(cart);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.ToString());
+                //MessageBox.Show(ex.ToString());
                 dtgrdProductList[0, row].Value = "";
                 dtgrdProductList[1, row].Value = "";
                 dtgrdProductList[2, row].Value = "";
@@ -522,11 +521,9 @@ namespace POS
                 dtgrdProductList[8, row].Value = "";
                 dtgrdProductList.EndEdit();
             }
-
             dtgrdProductList.EndEdit();
             cart = loadCart(Till.TILLNO);
             displayCart(cart);
-
             return found;
         }
         
@@ -591,7 +588,6 @@ namespace POS
         private void dtgrdProductList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             cellValueChanged();
-
             int row = -1;
             int col = -1;
             double amount = 0;
@@ -664,17 +660,16 @@ namespace POS
         private bool isAllVoid()
         {
             bool allVoid = true;
-            for (int i = 0, loopTo = dtgrdProductList.RowCount - 2; i <= loopTo; i++)
+            for (int i = 0; i < cart.cartDetails.Count; i++)
             {
-                if ((bool) dtgrdProductList[7, i].Value == false)
+                if (cart.cartDetails[i].voided == false)
                 {
                     allVoid = false;
                 }
             }
             return allVoid;
         }
-
-        private bool printReceipt(string tillNo, string receiptNo, string date_, string TIN, string VRN, string cash, string balance)
+        private bool printReceipt1(string tillNo, string receiptNo, string date_, string TIN, string VRN, string cash, string balance)
         {
             bool printed = false;
             int size = -1;
@@ -716,7 +711,43 @@ namespace POS
             }
 
             return printed;
-        }       
+        }
+        private bool printReceipt(Receipt receipt, double tender, double balance)
+        {
+            bool printed = false;
+            int size = -1;
+            for (int i = 0; i < receipt.receiptDetails.Count; i++)
+            {              
+                size = size + 1;
+            }
+            var code = new string[size + 1];
+            var descr = new string[size + 1];
+            var qty = new string[size + 1];
+            var price = new string[size + 1];
+            var tax = new string[size + 1];
+            var amount = new string[size + 1];
+            string subTotal = txtTotal.Text;
+            string totalVat = txtTax.Text;
+            string total = txtGrandTotal.Text;
+            string discountRatio = txtDiscount.Text;
+            int count = 0;
+            for (int i = 0; i < receipt.receiptDetails.Count; i++)
+            {     
+                code[count] = receipt.receiptDetails[i].code;
+                descr[count] = receipt.receiptDetails[i].description;
+                qty[count] = receipt.receiptDetails[i].qty.ToString();
+                price[count] =LCurrency.displayValue(receipt.receiptDetails[i].sellingPriceVatIncl.ToString());
+                tax[count] = LCurrency.displayValue(receipt.receiptDetails[i].vat.ToString());
+                amount[count] = LCurrency.displayValue(receipt.receiptDetails[i].amount.ToString());
+                count = count + 1;
+            }
+
+            if ((bool)PointOfSale.printReceipt(Till.TILLNO, receipt.no, general.Day.bussinessDate, Company.TIN.ToString(), Company.VRN.ToString(), code, descr, qty, price, tax, amount, subTotal, totalVat, total, tender.ToString(), balance.ToString()) == true)
+            {
+                printed = true;
+            }
+            return printed;
+        }
         private bool updateQty(double qty, string sn)
         {
             var detail = new CartDetail();
@@ -803,7 +834,7 @@ namespace POS
                 double _vat = 0;
                 double _discount = 0;
                 double _grandTotal = 0;
-                
+                               
                 foreach (CartDetail detail in cart.cartDetails)
                 {
                     i = i + 1;
@@ -871,7 +902,6 @@ namespace POS
                 txtGrandTotal.Text = (string)LCurrency.displayValue(_grandTotal.ToString());
             }
         }
-
         private void calculateValues(Cart cart)
         {
             if (cart.cartDetails != null)
@@ -904,8 +934,7 @@ namespace POS
                 txtTax.Text = (string)LCurrency.displayValue(_vat.ToString());
                 txtGrandTotal.Text = (string)LCurrency.displayValue(_grandTotal.ToString());
             }
-        }
-        
+        }        
         private void addToCart(string barcode, string code, string description, double costPriceVatExcl, double costPriceVatIncl, double sellingPriceVatExcl, double sellingPriceVatIncl, double discount, double vat, double qty, double amount)
         {
             var cart = new Cart();
@@ -961,7 +990,6 @@ namespace POS
             response = Web.put(cartDetail, "carts/void?detail_id=" + id);
             loadCart(Till.TILLNO);
         }
-
         private void unvoid(string tillNo, string id)
         {
             var cartDetail = new CartDetail();
@@ -973,7 +1001,6 @@ namespace POS
             loadCart(Till.TILLNO);
         }
         
-
         private int c = -1;
         private int r = -1;
         private void cmbProducts_KeyUp(object sender, KeyEventArgs e)
@@ -999,7 +1026,6 @@ namespace POS
             cmbProducts.SelectionStart = cmbProducts.Text.Length;
             Cursor.Current = Cursors.Default;
         }
-
         private void cellValueChanged()
         {
             int rowHeight = dtgrdProductList.RowTemplate.Height;
@@ -1035,8 +1061,7 @@ namespace POS
                 cmbProducts.Items.Clear();
                 c = -1;
                 r = -1;
-            }
-            
+            }           
         }
         private void cmbProducts_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1050,6 +1075,11 @@ namespace POS
             catch (Exception)
             {
             }
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

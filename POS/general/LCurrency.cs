@@ -23,6 +23,10 @@ namespace POS.general
 
         public static object getValue(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                value = "0";
+            }
             return value.Replace(",", "");
         }
 

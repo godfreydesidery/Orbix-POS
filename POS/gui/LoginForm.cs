@@ -26,25 +26,21 @@ namespace POS
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            //if(User.authenticate(txtUsername.Text, txtPassword.Text) == 0)
-            //{
-            //this.Visible = false;
-            //MainForm form = new MainForm();
-            //form.Show();
-            // }
-
+            Cursor = Cursors.WaitCursor;     
             if (User.authenticate(txtUsername.Text, txtPassword.Text) == 0)
             {
+                Cursor = Cursors.Default;
                 MainForm form = new MainForm();
                 form.Show();
-                this.Close();
+                this.Close();             
             }
             else
             {
+                Cursor = Cursors.Default;
                 MessageBox.Show("Invalid Username and Password", "Error: Login failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtUsername.Focus();
             }
-
+            Cursor = Cursors.Default;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

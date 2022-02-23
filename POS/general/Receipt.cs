@@ -35,6 +35,9 @@ namespace POS.general
         public User reprintedUser { get; set; } = new User();
         public List<ReceiptDetail> receiptDetails { get; set; } = new List<ReceiptDetail>();
 
+
+        public static Receipt CURRENT_RECEIPT = null;
+
         public int makeReceipt(string tillNo, string date_)
         {
             int number = 0;

@@ -66,7 +66,7 @@ namespace POS.general
         // </summary>
         // <returns type="String">RETURNS THE
         // RANDOMLY GENERATED KEY</returns>
-        public string Generate()
+        public string Generate111()
         {
             int i_key;
             float Random1;

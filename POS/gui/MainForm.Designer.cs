@@ -62,7 +62,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.lblAlias = new System.Windows.Forms.Label();
-            this.btnClear = new System.Windows.Forms.Button();
             this.btnPay = new System.Windows.Forms.Button();
             this.dtgrdProductList = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -501,20 +500,6 @@
             this.lblAlias.TabIndex = 0;
             this.lblAlias.Text = "lblAlias";
             // 
-            // btnClear
-            // 
-            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.BackColor = System.Drawing.Color.Maroon;
-            this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClear.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClear.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.btnClear.Location = new System.Drawing.Point(1175, 583);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(300, 52);
-            this.btnClear.TabIndex = 2;
-            this.btnClear.Text = "Clear";
-            this.btnClear.UseVisualStyleBackColor = false;
-            // 
             // btnPay
             // 
             this.btnPay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -673,7 +658,7 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.Location = new System.Drawing.Point(1173, 742);
+            this.label3.Location = new System.Drawing.Point(1173, 692);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(72, 20);
             this.label3.TabIndex = 16;
@@ -685,7 +670,7 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(1173, 690);
+            this.label2.Location = new System.Drawing.Point(1173, 640);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 20);
             this.label2.TabIndex = 15;
@@ -697,7 +682,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(1171, 638);
+            this.label1.Location = new System.Drawing.Point(1171, 588);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 20);
             this.label1.TabIndex = 14;
@@ -709,7 +694,7 @@
             this.txtTotal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.txtTotal.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtTotal.ForeColor = System.Drawing.Color.White;
-            this.txtTotal.Location = new System.Drawing.Point(1175, 661);
+            this.txtTotal.Location = new System.Drawing.Point(1175, 611);
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
             this.txtTotal.Size = new System.Drawing.Size(298, 19);
@@ -722,7 +707,7 @@
             this.txtTax.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.txtTax.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtTax.ForeColor = System.Drawing.Color.White;
-            this.txtTax.Location = new System.Drawing.Point(1175, 713);
+            this.txtTax.Location = new System.Drawing.Point(1175, 663);
             this.txtTax.Name = "txtTax";
             this.txtTax.ReadOnly = true;
             this.txtTax.Size = new System.Drawing.Size(298, 19);
@@ -735,7 +720,7 @@
             this.txtDiscount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.txtDiscount.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDiscount.ForeColor = System.Drawing.Color.White;
-            this.txtDiscount.Location = new System.Drawing.Point(1175, 765);
+            this.txtDiscount.Location = new System.Drawing.Point(1175, 715);
             this.txtDiscount.Name = "txtDiscount";
             this.txtDiscount.ReadOnly = true;
             this.txtDiscount.Size = new System.Drawing.Size(298, 19);
@@ -781,7 +766,6 @@
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.txtTotal);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnPay);
             this.Controls.Add(this.panel1);
@@ -791,6 +775,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "POS";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.panel5.ResumeLayout(false);
@@ -833,7 +818,6 @@
         private System.Windows.Forms.Button btnPettyCash;
         private System.Windows.Forms.Button btnViewHeld;
         private System.Windows.Forms.Button btnHold;
-        private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Label lblAlias;
         private System.Windows.Forms.Button btnSupplies;
         private System.Windows.Forms.Button btnLock;

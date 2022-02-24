@@ -86,6 +86,7 @@
             // 
             // btnUnlock
             // 
+            this.btnUnlock.Enabled = false;
             this.btnUnlock.Location = new System.Drawing.Point(140, 130);
             this.btnUnlock.Name = "btnUnlock";
             this.btnUnlock.Size = new System.Drawing.Size(108, 47);

@@ -14,7 +14,7 @@ namespace POS.gui
     {
         public string product = "";
         public string unitPrice = "";
-        public double discount = 0;
+        public static double discount = 0;
         public FormDiscount()
         {
             InitializeComponent();
@@ -22,10 +22,18 @@ namespace POS.gui
 
         private void txtDiscount_TextChanged(object sender, EventArgs e)
         {
-            if (Convert.ToDouble(txtDiscount.Text) <= 0)
+            try
+            {
+                if (Convert.ToDouble(txtDiscount.Text) <= 0)
+                {
+                    txtDiscount.Text = "0";
+                }
+            }
+            catch (Exception)
             {
                 txtDiscount.Text = "0";
             }
+            
         }
 
         private void FormDiscount_Load(object sender, EventArgs e)
@@ -38,6 +46,11 @@ namespace POS.gui
         private void btnOK_Click(object sender, EventArgs e)
         {
             discount = Convert.ToDouble(txtDiscount.Text);
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
         }
     }
 }

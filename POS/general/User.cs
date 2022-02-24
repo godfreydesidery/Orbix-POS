@@ -72,7 +72,6 @@ namespace POS.general
                 //Create a user session
                 auth = 0;
                 User.accessToken = user.access_token;
-
                 Object res = new Object();
                 JObject jobj = new JObject();
                 try
@@ -112,7 +111,7 @@ namespace POS.general
             {
                 response = false;
             }
-            return false;
+            return true;
         }
     }
 }

@@ -31,7 +31,6 @@ namespace POS.general
         public double crNote { get; set; }
         public double mobile { get; set; }
         public double other { get; set; }
-
         // Till float balance
         public double floatBalance { get; set; }
 

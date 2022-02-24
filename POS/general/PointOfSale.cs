@@ -49,7 +49,6 @@ namespace POS.general
         /// <param name="grandTotal"></param>
         /// <returns></returns>
         private static RawPrinterHelper prn = new RawPrinterHelper();
-        private static string PrinterName = "EPSON TM-T20 Receipt";
         private static string eClear = (char)27 + "@";
         private static string eCentre = (char)27 + (char)97 + "1";
         private static string eLeft = (char)27 + (char)97 + "0";
@@ -112,235 +111,80 @@ namespace POS.general
             {
                 MessageBox.Show(e.StackTrace);
             }
-
-            // Dim Proc As New Process
-            // Proc.StartInfo.FileName = strFile
-            // Proc.StartInfo.Verb = "Print"
-            // Proc.Start()
-            // Proc.Close()
             return null;
         }
 
-        public static object printReceipt(string tillNo, string receiptNo, string date_, string TIN, string VRN, string[] itemCode, string[] descr, string[] qty, string[] price, string[] tax, string[] amount, string subTotal, string VAT, string grandTotal, string cash, string balance)
+        public static void printReceipt(string tillNo, string receiptNo, string date_, string TIN, string VRN, string[] code, string[] descr, string[] qty, string[] price, string[] tax, string[] amount, string subTotal, string VAT, string grandTotal, string cash, string balance)
         {
+            string space = "";
+            for (int i = 1, loopTo = (40 - Company.NAME.ToString().Length) / 2; i <= loopTo; i++)
+                space = space + " ";
+            string companyName = space + Company.NAME;
+            space = "";
+            for (int i = 1, loopTo1 = (40 - Company.POST_CODE.ToString().Length) / 2; i <= loopTo1; i++)
+                space = space + " ";
+            string postCode = space + Company.POST_CODE;
+            space = "";
+            for (int i = 1, loopTo2 = (40 - Company.PHYSICAL_ADDRESS.ToString().Length) / 2; i <= loopTo2; i++)
+                space = space + " ";
+            string physicalAddress = space + Company.PHYSICAL_ADDRESS;
+            space = "";
+            for (int i = 1, loopTo3 = (40 - Company.TELEPHONE.ToString().Length) / 2; i <= loopTo3; i++)
+                space = space + " ";
+            string telephone = space + Company.TELEPHONE;
+            space = "";
+            for (int i = 1, loopTo4 = (40 - Company.EMAIL.ToString().Length) / 2; i <= loopTo4; i++)
+                space = space + " ";
+            string email = space + Company.EMAIL;
+            string fDateTime;
+            string strOutputData = "";
+            object CRLF;
+            object ESC;
+            fDateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"); // System date and time
+            CRLF = (char)13 + (char)10;
+            ESC = '\u001b';// check here
+            strOutputData = strOutputData + companyName + CRLF;
+            strOutputData = strOutputData + postCode + CRLF;
+            strOutputData = strOutputData + physicalAddress + CRLF;
+            strOutputData = strOutputData + telephone + CRLF;
+            strOutputData = strOutputData + email + CRLF + CRLF;
+            strOutputData = strOutputData + "       ***  Sales Receipt  ***" + CRLF;
+            strOutputData = strOutputData + "TIN:        " + TIN + CRLF;
+            strOutputData = strOutputData + "VRN:        " + VRN + CRLF;
+            strOutputData = strOutputData + "Till No:    " + tillNo + CRLF;
+            strOutputData = strOutputData + "Receipt No: " + receiptNo + CRLF;
+            strOutputData = strOutputData + CRLF;
+            strOutputData = strOutputData + "CODE        QTY   PRICE@     AMOUNT" + CRLF;
+            strOutputData = strOutputData + "DESCRIPTION" + CRLF;
+            strOutputData = strOutputData + "====================================" + CRLF;
 
-            // PointOfSale.printFiscalReceipt(tillNo, receiptNo, date_, TIN, VRN, itemCode, descr, qty, price, tax, amount, subTotal, VAT, grandTotal, cash, balance)
-
-            bool continue_ = true;
-            prn.OpenPrint(posPrinterLogicName);
+            for (int i = 0; i < code.Length; i++)
+            {
+                strOutputData = strOutputData + code[i] + " x " + qty[i] + "  " + price[i] + "  " + amount[i] + CRLF;
+                strOutputData = strOutputData + descr[i] + CRLF;
+            }
+            strOutputData = strOutputData + "------------------------------------" + CRLF;
+            strOutputData = strOutputData + "Sub Total                   " + subTotal + CRLF;
+            strOutputData = strOutputData + "Tax                         " + VAT + CRLF;
+            strOutputData = strOutputData + "Total Amount                " + grandTotal + CRLF;
+            strOutputData = strOutputData + "====================================" + CRLF;
+            strOutputData = strOutputData + "Cash              " + cash + CRLF;
+            strOutputData = strOutputData + "Balance           " + balance + CRLF;
+            strOutputData = strOutputData + "====================================" + CRLF;
+            strOutputData = strOutputData + "        You are Welcome !" + CRLF;
+            strOutputData = strOutputData + "Sale Date&Time : " + fDateTime + CRLF + CRLF;
+            strOutputData = strOutputData + CRLF;
+            strOutputData = strOutputData + "  Served by: " + User.FIRST_NAME + " " + User.LAST_NAME + CRLF;
+            strOutputData = strOutputData + "\u001d";
             try
             {
-                try
-                {
-                    prn.OpenPrint(posPrinterLogicName);
-                }
-                catch (Exception)
-                {
-                }
-
-                if (prn.PrinterIsOpen == false & PointOfSale.posPrinterEnabled == "ENABLED")
-                {
-                    DialogResult res = MessageBox.Show("Could Not connect to POS printer. Continue operation without printing POS receipt?", "Error: POS Printer not available", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    if (res == DialogResult.Yes)
-                    {
-                        continue_ = true;
-                    }
-                    else
-                    {
-                        continue_ = false;
-                        return continue_;
-                    }
-                }
-
-                if (PointOfSale.fiscalPrinterEnabled == "ENABLED" & continue_ == true)
-                {
-                    // insert options for fiscal printer in the future
-                    DialogResult res = MessageBox.Show("Could Not connect to Fiscal printer. Continue operation without printing Fiscal receipt?", "Error: Fiscal Printer not available", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                    if (res == DialogResult.Yes)
-                    {
-                        continue_ = true;
-                    }
-                    else
-                    {
-                        continue_ = false;
-                        return continue_;
-                    }
-                }
-
-                if (continue_ == false)
-                {
-                    return continue_;
-                }
-
-                string space = "";
-                for (int i = 1, loopTo = (40 - Company.NAME.ToString().Length) / 2; i <= loopTo; i++)
-                    space = space + " ";
-                string companyName = space + Company.NAME;
-                space = "";
-                for (int i = 1, loopTo1 = (40 - Company.POST_CODE.ToString().Length) / 2; i <= loopTo1; i++)
-                    space = space + " ";
-                string postCode = space + Company.POST_CODE;
-                space = "";
-                for (int i = 1, loopTo2 = (40 - Company.PHYSICAL_ADDRESS.ToString().Length) / 2; i <= loopTo2; i++)
-                    space = space + " ";
-                string physicalAddress = space + Company.PHYSICAL_ADDRESS;
-                space = "";
-                for (int i = 1, loopTo3 = (40 - Company.TELEPHONE.ToString().Length) / 2; i <= loopTo3; i++)
-                    space = space + " ";
-                string telephone = space + Company.TELEPHONE;
-                space = "";
-                for (int i = 1, loopTo4 = (40 - Company.EMAIL.ToString().Length) / 2; i <= loopTo4; i++)
-                    space = space + " ";
-                string email = space + Company.EMAIL;
-                string fDateTime;
-                string strOutputData = "";
-                object CRLF;
-                object ESC;
-                fDateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"); // System date and time
-                CRLF = (char)13 + (char)10;
-                ESC = '\u001b';// check here
-                strOutputData = strOutputData + companyName + CRLF;
-                strOutputData = strOutputData + postCode + CRLF;
-                strOutputData = strOutputData + physicalAddress + CRLF;
-                strOutputData = strOutputData + telephone + CRLF;
-                strOutputData = strOutputData + email + CRLF + CRLF;
-                strOutputData = strOutputData + "       ***  Sales Receipt  ***" + CRLF;
-                strOutputData = strOutputData + "TIN:        " + TIN + CRLF;
-                strOutputData = strOutputData + "VRN:        " + VRN + CRLF;
-                strOutputData = strOutputData + "Till No:    " + tillNo + CRLF;
-                strOutputData = strOutputData + "Receipt No: " + receiptNo + CRLF;
-                strOutputData = strOutputData + CRLF;
-                strOutputData = strOutputData + "CODE        QTY   PRICE@     AMOUNT" + CRLF;
-                strOutputData = strOutputData + "DESCRIPTION" + CRLF;
-                strOutputData = strOutputData + "====================================" + CRLF;
-                for (int i = 0, loopTo5 = descr.Length - 1; i <= loopTo5; i++)
-                {
-                    strOutputData = strOutputData + itemCode[i] + " x " + qty[i] + "  " + price[i] + "  " + amount[i] + CRLF;
-                    strOutputData = strOutputData + descr[i] + CRLF;
-                }
-
-                strOutputData = strOutputData + "------------------------------------" + CRLF;
-                strOutputData = strOutputData + "Sub Total                   " + subTotal + CRLF;
-                strOutputData = strOutputData + "Tax                         " + VAT + CRLF;
-                strOutputData = strOutputData + "Total Amount                " + grandTotal + CRLF;
-                strOutputData = strOutputData + "====================================" + CRLF;
-                strOutputData = strOutputData + "Cash              " + cash + CRLF;
-                strOutputData = strOutputData + "Balance           " + balance + CRLF;
-                strOutputData = strOutputData + "====================================" + CRLF;
-                strOutputData = strOutputData + "        You are Welcome !" + CRLF;
-                strOutputData = strOutputData + "Sale Date&Time : " + fDateTime + CRLF + CRLF;
-                strOutputData = strOutputData + CRLF;
-                strOutputData = strOutputData + "  Served by: " + User.FIRST_NAME + " " + User.LAST_NAME + CRLF;
-                strOutputData = strOutputData + '\u001d' + "V" + 'B' + '\0';
-                try
-                {
-                    prn.OpenPrint(posPrinterLogicName);
-                    Print(strOutputData);
-                    prn.ClosePrint();
-                }
-                catch (Exception)
-                {
-                }
+                prn.OpenPrint(posPrinterLogicName);
+                prn.SendStringToPrinter(posPrinterLogicName, strOutputData); // Print(strOutputData);
+                prn.ClosePrint();
             }
             catch (Exception)
             {
-                MessageBox.Show("Operation canceled. Could not print POS receipt");
-                return continue_;
             }
-
-            return continue_;
-        }
-
-        /*public static object printOrder(string copy, string orderNo, string waiter, string[] itemCode, string[] descr, string[] qty, string[] price, string[] amount, string grandTotal)
-        {
-            bool continue_ = true;
-            prn.OpenPrint(posPrinterLogicName);
-            try
-            {
-                try
-                {
-                    prn.OpenPrint(posPrinterLogicName);
-                }
-                catch (Exception ex)
-                {
-                    Interaction.MsgBox(ex.StackTrace);
-                }
-
-                if (prn.PrinterIsOpen == false & PointOfSale.posPrinterEnabled == "ENABLED")
-                {
-                    continue_ = false;
-                    Interaction.MsgBox("Could not print order. Printer error");
-                    return continue_;
-                    return default;
-                }
-
-                string space = "";
-                for (int i = 1, loopTo = (40 - Company.NAME.ToString.Length) / 2; i <= loopTo; i++)
-                    space = space + " ";
-                string companyName = space + Company.NAME;
-                string fDateTime;
-                string strOutputData = "";
-                object CRLF;
-                object ESC;
-                fDateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"); // System date and time
-                CRLF = Conversions.ToString('\r') + Conversions.ToString('\n');
-                ESC = '\u001b';
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + companyName, CRLF));
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + "       ***  Order Slip  ***", CRLF));
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + "Order No:    " + orderNo, CRLF));
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + "Slip:        " + copy, CRLF));
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + "Waiter Name: " + waiter, CRLF));
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData, CRLF));
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + "CODE        QTY   PRICE@     AMOUNT", CRLF));
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + "DESCRIPTION", CRLF));
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + "====================================", CRLF));
-                for (int i = 0, loopTo1 = descr.Length - 1; i <= loopTo1; i++)
-                {
-                    strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + itemCode[i] + " x " + qty[i] + "  " + price[i] + "  " + amount[i], CRLF));
-                    strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + descr[i], CRLF));
-                }
-
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + "------------------------------------", CRLF));
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + "Total Amount                " + grandTotal, CRLF));
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + "====================================", CRLF));
-                strOutputData = Conversions.ToString(Operators.AddObject(strOutputData + "Printed Date&Time : " + fDateTime, CRLF));
-                strOutputData = strOutputData + '\u001d' + "V" + 'B' + '\0';
-                try
-                {
-                    prn.OpenPrint(posPrinterLogicName);
-                    Print(strOutputData);
-                    prn.ClosePrint();
-                }
-                catch (Exception ex)
-                {
-                    Interaction.MsgBox(ex.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                Interaction.MsgBox("Operation canceled. Could not print Order Slip");
-                return continue_;
-                return default;
-            }
-
-            return continue_;
-        }*/
-
-        private static void Print(string Line)
-        {
-            prn.SendStringToPrinter(PrinterName, Line + System.Environment.NewLine);
-        }
-
-        private static void PrintDashes()
-        {
-            Print(eLeft + eNmlText + "-".PadRight(42, '-'));
-        }
-
-        public void EndPrint()
-        {
-            prn.ClosePrint();
-        }
-        
+        }  
     }
 }

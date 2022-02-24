@@ -104,6 +104,7 @@
     <Compile Include="general\Env.cs" />
     <Compile Include="general\Error.cs" />
     <Compile Include="general\Fiscal.cs" />
+    <Compile Include="general\Float.cs" />
     <Compile Include="general\Hash.cs" />
     <Compile Include="general\InstalledPOSDevices.cs" />
     <Compile Include="general\Inventory.cs" />

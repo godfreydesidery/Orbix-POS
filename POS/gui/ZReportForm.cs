@@ -42,7 +42,7 @@ namespace POS
             var json = new JObject();
             try
             {
-                response = Web.get_("credit_notes/get_crnoteno?code=");
+                response = Web.get_("reports/get_zreport");
                 json = JObject.Parse(response.ToString());
             }
             catch (Exception)

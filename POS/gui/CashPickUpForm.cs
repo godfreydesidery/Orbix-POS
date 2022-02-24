@@ -19,12 +19,10 @@ namespace POS
         double pickUpAmount = 0;
         double newCashAmount = 0;
         double currentFloat = 0;
-
         public CashPickUpForm()
         {
             InitializeComponent();
         }
-
         private void button28_Click(object sender, EventArgs e)
         {
             this.Visible = false;
@@ -35,43 +33,47 @@ namespace POS
             var json = new JObject();
             try
             {
-                response = Web.get_(("tills/get_till_position_by_no?no=") + (Till.TILLNO));
+                response = Web.get_("tills/get_by_till_no?till_no=" + Till.TILLNO);
+                json = JObject.Parse(response.ToString());
+                Till till_ = JsonConvert.DeserializeObject<general.Till>(json.ToString());
+                currentAmount = till_.cash;
+                currentFloat = till_.floatBalance;
+                txtAvailable.Text = LCurrency.displayValue(currentAmount.ToString());
+                txtAmount.Text = "";
+                txtBalance.Text = "";
             }
-            catch (global::System.Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-            }
-
-            json = JObject.Parse(response.ToString());
-            general.Till till_ = JsonConvert.DeserializeObject<general.Till>(json.ToString());
-            currentAmount = till_.cash;
-            currentFloat = till_.floatBalance;
-            txtAvailable.Text =(string) LCurrency.displayValue(currentAmount.ToString());
-            txtAmount.Text = "";
-            txtBalance.Text = "";
+            }           
         }
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             txtAmount.Text = "";
         }
-
         private void txtAmount_TextChanged(object sender, EventArgs e)
         {
-            string amount = txtAmount.Text;
-            double test;
-            if (((double.TryParse(amount, out test)) & ((Convert.ToDouble(amount)) >= (0d)))) // And Val(amount) <= currentAmount Then
+            try
             {
-                newCashAmount = ((currentAmount) - Convert.ToDouble(amount));
-                txtBalance.Text =(string) LCurrency.displayValue(newCashAmount.ToString());
+                double amount = Convert.ToDouble(LCurrency.getValue(txtAmount.Text));
+                if(amount <= 0)
+                {
+                    //MessageBox.Show("Invalid pick up value", "Error: Invalid Entry", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtAmount.Text = "";
+                    txtBalance.Text = "";
+                }
+                else
+                {
+                    newCashAmount = currentAmount - amount;
+                    txtBalance.Text = LCurrency.displayValue(newCashAmount.ToString());
+                }
             }
-            else
+            catch (Exception)
             {
                 txtAmount.Text = "";
                 txtBalance.Text = "";
-            }
+            }          
         }
-
         private double getCurrentCash()
         {
             double available = 0;
@@ -79,53 +81,45 @@ namespace POS
             var json = new JObject();
             try
             {
-                response = Web.get_("tills/get_till_position_by_no?no=" + Till.TILLNO);
+                response = Web.get_("tills/get_by_till_no?till_no=" + Till.TILLNO);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
-
             json = JObject.Parse(response.ToString());
             Till till_ = JsonConvert.DeserializeObject<Till>(json.ToString());
             available = till_.cash;
             return available;
         }
-
         private void btnOK_Click(object sender, EventArgs e)
         {
-            string amount = txtAmount.Text;
-            // Dim detail As String = txtDetails.Text
-
+            double amount =Convert.ToDouble(LCurrency.getValue(txtAmount.Text));
+           
             if (getCurrentCash() < Convert.ToDouble(amount))
             {
                 MessageBox.Show("Could not complete operation. Insufficient cash amount available.", "Error: Insufficient Funds", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
             DialogResult res = MessageBox.Show("Pick up amount: " + LCurrency.displayValue(txtAmount.Text) + " Confirm?", "Confirm Cash Pick up", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (res == DialogResult.Yes)
             {
-                // record petty cash
-
-                var cashPickUp = new CashPickUp();
+                CashPickUp cashPickUp = new CashPickUp();
                 cashPickUp.amount = Convert.ToDouble(amount);
-                // pettyCash.details = txtDetails.Text
                 cashPickUp.till.no = Till.TILLNO;
                 var response = new object();
                 var json = new JObject();
                 try
                 {
-                    response = Web.post(cashPickUp, "cash_pick_ups/pick_up_by_till_no?no=" + Till.TILLNO);
+                    response = Web.post(cashPickUp, "tills/cash_pick_up?no=" + Till.TILLNO);
+                    MessageBox.Show("Cash Pick up registered successifully");
+                    Dispose();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
                     return;
-                }
-
-                MessageBox.Show("Cash Pick up registered successifully");
-                this.Dispose();
+                }               
             }
         }
 
@@ -141,5 +135,4 @@ namespace POS
             }
         }
     }
-
 }

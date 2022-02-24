@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,26 @@ namespace POS
 {
     public partial class FormPayPoint : Form
     {
+        private static RawPrinterHelper prn = new RawPrinterHelper();
+
+        public static string posPrinterLogicName = "";
+        public static string posCashDrawerLogicName = "";
+        public static string posLineDisplayLogicName = "";
+        public static bool posPrinterEnabled = false;
+
+        /// <summary>
+        /// 'fiscal printer settings
+        /// </summary>
+        public static string strLogicalName = InstalledPOSDevices.posLogicName;  // get the available fiscal printer logical name
+        public static string fiscalPrinterDeviceName = "";
+        public static string operatorName = "";
+        public static string operatorPassword = "";
+        public static string port = "";
+        public static string drawer = "";
+        public static string fiscalPrinterEnabled = "";
+
+
+
         public static string no = "";
         public static double cash = 0d;
         public static double voucher = 0d;
@@ -33,18 +54,18 @@ namespace POS
         public static string balance = "";
 
         string MODE = "";
+        public static bool paid = false;
         public FormPayPoint()
         {
             InitializeComponent();
         }
-
         private void button28_Click(object sender, EventArgs e)
         {
             this.Visible = false;
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
+            Receipt.CURRENT_RECEIPT = null;
             double amount =Convert.ToDouble(LCurrency.getValue(txtTotal.Text));
             if (Convert.ToDouble(LCurrency.getValue(txtBalance.Text)) >= 0)
             {
@@ -64,52 +85,72 @@ namespace POS
                     CRNote = Convert.ToDouble(LCurrency.getValue(txtCRNote.Text));
                     mobile = Convert.ToDouble(LCurrency.getValue(txtMobile.Text));
                     cheque = Convert.ToDouble(LCurrency.getValue(txtCheque.Text));
-
-                    //Now pay and return receipt no
-
+                    
                     Receipt.CURRENT_RECEIPT = pay(cash, voucher, deposit, loyalty, CRCard, CAP, invoice, CRNote, mobile);
-
-                    // till register
-                    // Till.tillTotalRegister(Till.TILLNO, cash, voucher, cheque, deposit, loyalty, CRCard, CAP, invoice, CRNote, mobile)
-                    this.Dispose();
-                }
-                else
-                {
-                    // dont commit payment
-                }
+                    if(Receipt.CURRENT_RECEIPT != null)
+                    {
+                        this.Dispose();
+                    }                
+                }                
             }
             else
             {
                 MessageBox.Show("Could not process payment. Insufficient funds", "Error: Insufficient funds", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private Receipt pay(double cash, double voucher, double deposit, double loyalty, double crCard, double cap, double invoice, double crNote, double mobile)
         {
-            Receipt receipt = new Receipt();
-            Payment payment = new Payment();
-            payment.cash = cash;
-            payment.voucher = voucher;
-            payment.deposit = deposit;
-            payment.loyalty = loyalty;
-            payment.crCard = crCard;
-            payment.cap = cap;
-            payment.invoice = invoice;
-            payment.crNote = crNote;
-            payment.mobile = mobile;
-
-            var response = new object();
-            var json = new JObject();
+            bool continue_ = true;
             try
             {
-                response = Web.post(payment, "carts/pay?till_no="+Till.TILLNO+"&cart_no="+Cart.NO);
-                receipt = JsonConvert.DeserializeObject<Receipt>(json.ToString());
+                prn.OpenPrint(posPrinterLogicName);
             }
             catch (Exception)
             {
-                return null;
+
             }
-            return receipt;
+
+            if (prn.PrinterIsOpen == false & posPrinterEnabled == true)
+            {
+                DialogResult res = MessageBox.Show("Could Not connect to POS printer. Continue operation without printing POS receipt?", "Error: POS Printer not available", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    continue_ = true;
+                }
+                else
+                {
+                    continue_ = false;
+                }
+            }
+
+            if(continue_ == true)
+            {
+                Receipt receipt = new Receipt();
+                Payment payment = new Payment();
+                payment.cash = cash;
+                payment.voucher = voucher;
+                payment.deposit = deposit;
+                payment.loyalty = loyalty;
+                payment.crCard = crCard;
+                payment.cap = cap;
+                payment.invoice = invoice;
+                payment.crNote = crNote;
+                payment.mobile = mobile;
+
+                var response = new object();
+                var json = new JObject();
+                try
+                {
+                    response = Web.post(payment, "carts/pay?till_no="+Till.TILLNO+"&cart_no="+Cart.NO);
+                    json = JObject.Parse(response.ToString());
+                    return JsonConvert.DeserializeObject<Receipt>(json.ToString());              
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }            
+            return null;
         }               
         private object calculateTotal()
         {
@@ -326,6 +367,8 @@ namespace POS
         }
         private void FormPayPoint_Shown(object sender, EventArgs e)
         {
+            paid = false;
+
             clearAll();
             txtTotal.Text = LCurrency.displayValue(total.ToString());
 

@@ -26,7 +26,7 @@ namespace POS
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
+            Visible = false;
         }
 
         private void FloatForm_Load(object sender, EventArgs e)
@@ -35,17 +35,16 @@ namespace POS
             var json = new JObject();
             try
             {
-                response = Web.get_("tills/get_float_by_no?no=" + Till.TILLNO);
+                response = Web.get_("tills/get_by_till_no?till_no=" + Till.TILLNO);
+                json = JObject.Parse(response.ToString());
+                Till till_ = JsonConvert.DeserializeObject<Till>(json.ToString());
+                currentFloat = till_.floatBalance;
+                txtCurrentFloat.Text = LCurrency.displayValue(currentFloat.ToString());
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
-
-            json = JObject.Parse(response.ToString());
-            Till till_ = JsonConvert.DeserializeObject<Till>(json.ToString());
-            currentFloat = till_.floatBalance;
-            txtCurrentFloat.Text =(string) LCurrency.displayValue(currentFloat.ToString());
         }
 
         private void txtAdd_Enter(object sender, EventArgs e)
@@ -55,18 +54,26 @@ namespace POS
 
         private void txtAdd_TextChanged(object sender, EventArgs e)
         {
-            string amount = txtAdd.Text;
-            double test;
-            if (double.TryParse(amount, out test) & Convert.ToDouble(amount) >= 0)
+            try
             {
-                newFloat = currentFloat + Convert.ToDouble(amount);
-                txtNewFloat.Text =(string) LCurrency.displayValue(newFloat.ToString());
+                double amount = Convert.ToDouble(LCurrency.getValue(txtAdd.Text));
+                if (amount <= 0)
+                {
+                    txtAdd.Text = "";
+                    txtNewFloat.Text = "";
+                }
+                else
+                {
+                    newFloat = currentFloat + Convert.ToDouble(amount);
+                    txtNewFloat.Text = LCurrency.displayValue(newFloat.ToString());
+                }
             }
-            else
+            catch (Exception)
             {
                 txtAdd.Text = "";
                 txtNewFloat.Text = "";
             }
+                   
         }
 
         private void txtNewFloat_TextChanged(object sender, EventArgs e)
@@ -80,72 +87,112 @@ namespace POS
                 btnOK.Enabled = true;
             }
         }
-
         private void btnOK_Click(object sender, EventArgs e)
         {
-            DialogResult res = 0;
-            if (Convert.ToDouble(txtAdd.Text) > 0)
+            double add = Convert.ToDouble(LCurrency.getValue(txtAdd.Text));
+            double deduct = Convert.ToDouble(LCurrency.getValue(txtDeduct.Text));
+            if (add > 0 && deduct > 0)
             {
-                txtDeduct.Text = "";
-                res = MessageBox.Show("Increase amount: " + LCurrency.displayValue(txtAdd.Text) + " New amount: " + LCurrency.displayValue(txtNewFloat.Text) + " Confirm?", "Confirm float increase", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                MessageBox.Show("Both values must not be more than zero", "Error: Invalid Entry", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else if (Convert.ToDouble(txtDeduct.Text) > 0)
+            if (add == 0 && deduct == 0)
             {
-                txtAdd.Text = "";
-                res = MessageBox.Show("Deduct amount: " + LCurrency.displayValue(txtDeduct.Text) + " New amount: " + LCurrency.displayValue(txtNewFloat.Text) + " Confirm?", "Confirm float deduction", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                MessageBox.Show("Both values must not be zero", "Error: Invalid Entry", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-
+            if (add < 0 || deduct < 0)
+            {
+                MessageBox.Show("Neither value should be less than zero", "Error: Invalid Entry", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (deduct > 0)
+            {
+                if(getCurrentFloat() < deduct)
+                {
+                    MessageBox.Show("Could not process. Insufficient float balance", "Error: Insufficient Balance", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            DialogResult res;
+            if(add > 0)
+            {
+                deduct = 0;
+                res = MessageBox.Show("Add float : " + LCurrency.displayValue(txtAdd.Text) + " Confirm?", "Confirm Float addition", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            }else
+            {
+                add = 0;
+                res = MessageBox.Show("Deduct float : " + LCurrency.displayValue(txtDeduct.Text) + " Confirm?", "Confirm Float deduction", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            }
             if (res == DialogResult.Yes)
             {
-                currentFloat = (double)LCurrency.getValue(txtNewFloat.Text);
-                txtCurrentFloat.Text = (string) LCurrency.displayValue(currentFloat.ToString());
-                var till = new Till();
-                till.no = Till.TILLNO;
-                till.computerName = "NA";
-                till.name = "NA";
-                till.floatBalance = currentFloat;
+                Float float_ = new Float();
+                float_.addition = add;
+                float_.deduction = deduct;
+                float_.till.no = Till.TILLNO;
                 var response = new object();
                 var json = new JObject();
                 try
                 {
-                    response = Web.put(till, "tills/update_float_by_no?no=" + Till.TILLNO);
+                    response = Web.post(float_, "tills/float?no=" + Till.TILLNO);
+                    MessageBox.Show("Float registered successifully");
+                    Dispose();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
                     return;
                 }
-
-                txtAdd.Text = "";
-                txtDeduct.Text = "";
-                MessageBox.Show("Float updated successifully");
-            }
+            }           
         }
-
+        private double getCurrentFloat()
+        {
+            double available = 0;
+            var response = new object();
+            var json = new JObject();
+            try
+            {
+                response = Web.get_("tills/get_by_till_no?till_no=" + Till.TILLNO);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            json = JObject.Parse(response.ToString());
+            Till till_ = JsonConvert.DeserializeObject<Till>(json.ToString());
+            available = till_.floatBalance;
+            return available;
+        }
         private void btnCancel_Click(object sender, EventArgs e)
         {
             txtAdd.Text = "";
         }
-
         private void txtDeduct_Enter(object sender, EventArgs e)
         {
             txtAdd.Text = "";
         }
-
         private void txtDeduct_TextChanged(object sender, EventArgs e)
         {
-            string amount = txtDeduct.Text;
-            double test;
-            if (double.TryParse(amount, out test) & Convert.ToDouble(amount) >= 0d & Convert.ToDouble(amount) <= (double)currentFloat)
+
+            try
             {
-                newFloat = currentFloat - Convert.ToDouble(amount);
-                txtNewFloat.Text = (string) LCurrency.displayValue(newFloat.ToString());
+                double amount = Convert.ToDouble(LCurrency.getValue(txtDeduct.Text));
+                if (amount <= 0 || amount > currentFloat)
+                {
+                    txtDeduct.Text = "";
+                    txtNewFloat.Text = "";
+                }
+                else
+                {
+                    newFloat = currentFloat - Convert.ToDouble(amount);
+                    txtNewFloat.Text = LCurrency.displayValue(newFloat.ToString());
+                }
             }
-            else
+            catch (Exception)
             {
                 txtDeduct.Text = "";
                 txtNewFloat.Text = "";
-            }
+            }            
         }
     }
 }
